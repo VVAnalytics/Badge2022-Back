@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
     {
-    public class MedicamentsPrescritRepository : BaseRepository<MedicamentsPrescrits>, IMedicamentsPrescritsRepository
+    public class MedicamentsPrescritRepository : BaseRepository<MedicamentsPrescrits>, INoteselevesRepository
         {
         public MedicamentsPrescritRepository(Badge2022Context context) : base(context)
         {

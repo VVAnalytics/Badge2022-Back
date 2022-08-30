@@ -17,15 +17,15 @@ namespace Badge2022EF.DAL
             Cours = Set<CoursEntity>();
             Examens = Set<ExamenEntity>();
             Formations = Set<FormationEntity>();
-            NoteEleves = Set<NotesEleveEntity>();
+            NotesEleves = Set<NotesEleveEntity>();
             Personnes = Set<PersonneEntity>();
             Roles = Set<RoleEntity>();
         }
 
         public virtual DbSet<CoursEntity> Cours { get; set; }
         public virtual DbSet<ExamenEntity> Examens { get; set; }
-        public virtual DbSet<FormationEntity> FormationEntity { get; set; }
-        public virtual DbSet<NotesEleveEntity> NotesEleveEntity { get; set; }
+        public virtual DbSet<FormationEntity> Formations { get; set; }
+        public virtual DbSet<NotesEleveEntity> NotesEleves { get; set; }
         public override DbSet<RoleEntity> Roles { get; set; }
         public virtual DbSet<PersonneEntity> Personnes { get; set; }
 
@@ -48,16 +48,12 @@ namespace Badge2022EF.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new ArmoireEntityConfig());
-            modelBuilder.ApplyConfiguration(new ArmoiresStockEntityConfig());
-            modelBuilder.ApplyConfiguration(new MedecinEntityConfig());
-            modelBuilder.ApplyConfiguration(new MedicamentEntityConfig());
-            modelBuilder.ApplyConfiguration(new MedicamentsPrescritEntityConfig());
+            modelBuilder.ApplyConfiguration(new CoursEntityConfig());
             modelBuilder.ApplyConfiguration(new ExamenEntityConfig());
-            modelBuilder.ApplyConfiguration(new PharmacyEntityConfig());
+            modelBuilder.ApplyConfiguration(new FormationEntityConfig());
+            modelBuilder.ApplyConfiguration(new NotesEleveEntityConfig());
             modelBuilder.ApplyConfiguration(new PersonneEntityConfig());
             modelBuilder.ApplyConfiguration(new RoleEntityConfig());
-
 
             OnModelCreatingPartial(modelBuilder);
             base.OnModelCreating(modelBuilder);

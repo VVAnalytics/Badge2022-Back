@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
 {
-    public class MedecinRepository : BaseRepository<NotesEleves>, IMedecinRepository
+    public class MedecinRepository : BaseRepository<NotesEleves>, IFormationsRepository
     {
         public MedecinRepository(Badge2022Context context) : base(context)
         {

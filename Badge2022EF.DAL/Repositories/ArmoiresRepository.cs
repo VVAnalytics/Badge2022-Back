@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
     {
-    public class ArmoireRepository : BaseRepository<Cours>, IArmoiresRepository
+    public class ArmoireRepository : BaseRepository<Cours>, IExamensRepository
         {
         public ArmoireRepository(Badge2022Context context) : base(context)
         {

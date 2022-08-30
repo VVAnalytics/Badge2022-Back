@@ -7,33 +7,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
     {
-    public class OrdonnanceRepository : BaseRepository<Formations>, IOrdonnanceRepository
+    public class CoursRepository : BaseRepository<Cours>, ICoursRepository
         {
-        public OrdonnanceRepository(Badge2022Context context) : base(context)
+        public CoursRepository(Badge2022Context context) : base(context)
         {
         }
 
-        public override Formations GetOne(long id)
+        public override Cours GetOne(int id)
             {
-            return _db.Ordonnances.Find(id)!.ToModel();
+            return _db.Cours.Find(id)!.ToModel();
             }
-        public override IEnumerable<Formations> GetOne2(long id)
+        public override IEnumerable<Cours> GetOne2(int id)
         {
-            yield return _db.Ordonnances.Find(id)!.ToModel();
+            yield return _db.Cours.Find(id)!.ToModel();
         }
         public override IEnumerable<Formations> GetAll()
             {
-            return _db.Ordonnances.Select(m => m.ToModel());
+            return _db.Cours.Select(m => m.ToModel());
             }
         public IEnumerable<Formations> GetAll(int limit, int offset)
         {
-            return _db.Ordonnances.Skip(offset).Take(limit).Select(m => m.ToModel());
+            return _db.Cours.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
 
-        public override bool Add(Formations Ordonnance)
+        public override bool Add(Cours cours)
             {
-            OrdonnanceEntity toInsert = Ordonnance.ToEntity();
-            _db.Ordonnances.Add(toInsert);
+            CoursEntity toInsert = Cours.ToEntity();
+            _db.Cours.Add(toInsert);
 
             try
                 {
@@ -42,18 +42,18 @@ namespace Badge2022EF.DAL.Repositories
                 }
             catch (DbUpdateException)
                 {
-                _db.Ordonnances.Remove(toInsert);
+                _db.Cours.Remove(toInsert);
                 return false;
                 }
             }
 
-        public override bool Update(Formations Ordonnance)
+        public override bool Update(Cours cours)
         {
-            OrdonnanceEntity toUpdate = _db.Ordonnances.Find(Ordonnance.OrdonnanceId)!;
-            toUpdate.Id = Ordonnance.OrdonnanceId;
-            _db.Ordonnances.Remove(_db.Ordonnances.Find(Ordonnance.OrdonnanceId)!);
-            toUpdate = Ordonnance.ToEntity();
-            _db.Ordonnances.Add(toUpdate);
+            CoursEntity toUpdate = _db.Cours.Find(cours.cid)!;
+            toUpdate.Id = cours.cid;
+            _db.Cours.Remove(_db.Cours.Find(cours.cid)!);
+            toUpdate = Cours.ToEntity();
+            _db.Cours.Add(toUpdate);
 
             try
             {
@@ -66,11 +66,11 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Delete(long id)
+        public override bool Delete(int id)
             {
             try
                 {
-                _db.Ordonnances.Remove(_db.Ordonnances.Find(id)!);
+                _db.Cours.Remove(_db.Cours.Find(id)!);
                 _db.SaveChanges();
                 return true;
                 }
