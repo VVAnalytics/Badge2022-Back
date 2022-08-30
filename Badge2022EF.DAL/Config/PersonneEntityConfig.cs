@@ -75,17 +75,8 @@ namespace Badge2022EF.DAL.Config
                             .HasForeignKey(us => us.Id)
                             .IsRequired());
 
-            builder.HasMany(u => u.uformation)
-                    .WithMany(r => r.Personnes)
-                    .UsingEntity<FormationEntity>(
-                        userFormation => userFormation.HasOne<FormationEntity>()
-                            .WithMany()
-                            .HasForeignKey(ur => ur.fid)
-                            .IsRequired(),
-                        userFormation => userFormation.HasOne<PersonneEntity>()
-                            .WithMany()
-                            .HasForeignKey(us => us.fid)
-                            .IsRequired());
+            builder.HasOne(c => c.uformation)
+                   .WithMany(e => e.fPersonnes);
 
             builder.HasIndex(x => x.Email).IsUnique();
         }

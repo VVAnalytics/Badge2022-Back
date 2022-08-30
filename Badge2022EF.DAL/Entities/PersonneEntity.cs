@@ -16,10 +16,8 @@ namespace Badge2022EF.DAL.Entities
         public string? upays { get; set; }
 
         public virtual ICollection<RoleEntity>? urole { get; set; }
-
-        public virtual ICollection<FormationEntity>? uformation { get; set; }
-
-        public virtual ICollection<NotesEleveEntity> uNotesEleve { get; set; }
+        public FormationEntity? uformation { get; set; }
+        public virtual ICollection<NotesEleveEntity>? uNotesEleve { get; set; }
 
     }
 }

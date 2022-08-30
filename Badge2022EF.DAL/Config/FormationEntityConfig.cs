@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Badge2022EF.DAL.Config
-    {
+{
     public class FormationEntityConfig : IEntityTypeConfiguration<FormationEntity>
         {
         public void Configure(EntityTypeBuilder<FormationEntity> builder)
@@ -19,6 +19,14 @@ namespace Badge2022EF.DAL.Config
                     .HasColumnName("fnom")
                     .IsRequired()
                     .HasComment("TRIAL");
+                
+                builder.HasMany(c => c.fCours)
+                       .WithOne(e => e.cform);
+
+                builder.HasMany(c => c.fPersonnes)
+                       .WithOne(e => e.uformation);
+
+
         }
     }
 }

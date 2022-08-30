@@ -8,6 +8,7 @@ namespace Badge2022EF.DAL
     { 
         public int eid { get; set; } = int.MinValue;
         public string enom { get; set; } = string.Empty;
-        public CoursEntity eCours { get; set; }
+        public int enote { get; set; } = int.MinValue;
+        public CoursEntity? eCours { get; set; }
     }
 }

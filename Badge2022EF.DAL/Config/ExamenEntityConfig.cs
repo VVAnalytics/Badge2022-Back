@@ -19,6 +19,9 @@ namespace Badge2022EF.DAL.Config
                     .HasColumnName("enom")
                     .IsRequired()
                     .HasComment("TRIAL");
+
+                builder.HasOne(e => e.eCours)
+                       .WithMany(c => c.cexams);
         }
     }
 }

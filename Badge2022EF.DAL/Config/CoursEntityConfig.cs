@@ -23,10 +23,8 @@ namespace Badge2022EF.DAL.Config
                 builder.HasMany(c => c.cexams)
                        .WithOne(e => e.eCours);
 
-
-                builder.HasMany(c => c.cform)
-                       .WithOne(e => e.fCours);
-
+                builder.HasOne(c => c.cform)
+                       .WithMany(e => e.fCours);
         }
     }
 }

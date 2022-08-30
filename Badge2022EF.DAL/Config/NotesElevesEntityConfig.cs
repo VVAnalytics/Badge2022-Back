@@ -1,6 +1,7 @@
 ﻿using Badge2022EF.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Badge2022EF.DAL.Config
     {
     public class NotesEleveEntityConfig : IEntityTypeConfiguration<NotesEleveEntity>
