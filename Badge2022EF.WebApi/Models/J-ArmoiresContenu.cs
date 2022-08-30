@@ -1,0 +1,13 @@
+﻿using Badge2022EF.Models.Interfaces;
+
+namespace Badge2022EF.WebApi.Models
+{
+    public class J_ArmoiresContenu : IArmoiresContenu
+    {
+        public string ACmedicamentId { get; set; } = string.Empty;
+        public long ACarmoireId { get; set; } = long.MinValue;
+        public long ACordonnanceId { get; set; } = long.MinValue;
+        public long ACquantite { get; set; } = long.MinValue;
+        public long ACmediId { get; set; } = long.MinValue;
+    }
+}
