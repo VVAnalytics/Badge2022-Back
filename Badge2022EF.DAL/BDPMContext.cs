@@ -9,42 +9,23 @@ using Microsoft.Extensions.Configuration;
 
 namespace Badge2022EF.DAL
 {
-    public partial class BDPMContext : IdentityDbContext<PersonneEntity, RoleEntity, long>
+    public partial class Badge2022Context : IdentityDbContext<PersonneEntity, RoleEntity, int>
     {
-        //public BDPMContext()
-        //{
-        //    Armoires = Set<ArmoireEntity>();
-        //    ArmoiresStocks = Set<ArmoiresStockEntity>();
-        //    Medecins = Set<MedecinEntity>();
-        //    Medicaments = Set<MedicamentEntity>();
-        //    MedicamentsPrescrits = Set<MedicamentsPrescritEntity>();
-        //    Ordonnances = Set<OrdonnanceEntity>();
-        //    Pharmacies = Set<PharmacyEntity>();
-        //    Personnes = Set<PersonneEntity>();
-        //    Roles = Set<RoleEntity>();
-        //}
-
-        public BDPMContext(DbContextOptions<BDPMContext> options)
+        public Badge2022Context(DbContextOptions<Badge2022Context> options)
             : base(options)
         {
-            Armoires = Set<ArmoireEntity>();
-            ArmoiresStocks = Set<ArmoiresStockEntity>();
-            Medecins = Set<MedecinEntity>();
-            Medicaments = Set<MedicamentEntity>();
-            MedicamentsPrescrits = Set<MedicamentsPrescritEntity>();
-            Ordonnances = Set<OrdonnanceEntity>();
-            Pharmacies = Set<PharmacyEntity>();
+            Cours = Set<CoursEntity>();
+            Examens = Set<ExamenEntity>();
+            Formations = Set<FormationEntity>();
+            NoteEleves = Set<NotesEleveEntity>();
             Personnes = Set<PersonneEntity>();
             Roles = Set<RoleEntity>();
         }
 
-        public virtual DbSet<ArmoireEntity> Armoires { get; set; }
-        public virtual DbSet<ArmoiresStockEntity> ArmoiresStocks { get; set; }
-        public virtual DbSet<MedecinEntity> Medecins { get; set; }
-        public virtual DbSet<MedicamentEntity> Medicaments { get; set; }
-        public virtual DbSet<MedicamentsPrescritEntity> MedicamentsPrescrits { get; set; }
-        public virtual DbSet<OrdonnanceEntity> Ordonnances { get; set; }
-        public virtual DbSet<PharmacyEntity> Pharmacies { get; set; }
+        public virtual DbSet<CoursEntity> Cours { get; set; }
+        public virtual DbSet<ExamenEntity> Examens { get; set; }
+        public virtual DbSet<FormationEntity> FormationEntity { get; set; }
+        public virtual DbSet<NotesEleveEntity> NotesEleveEntity { get; set; }
         public override DbSet<RoleEntity> Roles { get; set; }
         public virtual DbSet<PersonneEntity> Personnes { get; set; }
 
@@ -72,7 +53,7 @@ namespace Badge2022EF.DAL
             modelBuilder.ApplyConfiguration(new MedecinEntityConfig());
             modelBuilder.ApplyConfiguration(new MedicamentEntityConfig());
             modelBuilder.ApplyConfiguration(new MedicamentsPrescritEntityConfig());
-            modelBuilder.ApplyConfiguration(new OrdonnanceEntityConfig());
+            modelBuilder.ApplyConfiguration(new ExamenEntityConfig());
             modelBuilder.ApplyConfiguration(new PharmacyEntityConfig());
             modelBuilder.ApplyConfiguration(new PersonneEntityConfig());
             modelBuilder.ApplyConfiguration(new RoleEntityConfig());

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Badge2022EF.DAL.Migrations
 {
-    [DbContext(typeof(BDPMContext))]
+    [DbContext(typeof(Badge2022Context))]
     [Migration("20220620183744_V1")]
     partial class V1
     {

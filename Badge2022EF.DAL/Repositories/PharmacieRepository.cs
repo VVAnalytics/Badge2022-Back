@@ -9,7 +9,7 @@ namespace Badge2022EF.DAL.Repositories
     {
     public class PharmacieRepository : BaseRepository<Pharmacies>, IPharmacieRepository
         {
-        public PharmacieRepository(BDPMContext context) : base(context)
+        public PharmacieRepository(Badge2022Context context) : base(context)
         {
         }
 

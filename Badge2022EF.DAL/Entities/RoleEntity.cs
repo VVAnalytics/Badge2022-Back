@@ -1,6 +1,5 @@
 ﻿using Badge2022EF.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
 
 namespace Badge2022EF.DAL
 {

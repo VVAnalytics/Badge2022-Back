@@ -9,7 +9,7 @@ namespace Badge2022EF.DAL.Repositories
 {
     public class PersonneRepository : BaseRepository<Personnes>, IPersonneRepository
     {
-        public PersonneRepository(BDPMContext context) : base(context)
+        public PersonneRepository(Badge2022Context context) : base(context)
         {
         }
 

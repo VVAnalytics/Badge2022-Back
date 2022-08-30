@@ -9,7 +9,7 @@ namespace Badge2022EF.DAL.Repositories
     {
     public class OrdonnanceRepository : BaseRepository<Ordonnances>, IOrdonnanceRepository
         {
-        public OrdonnanceRepository(BDPMContext context) : base(context)
+        public OrdonnanceRepository(Badge2022Context context) : base(context)
         {
         }
 

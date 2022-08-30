@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Badge2022EF.DAL.Migrations
 {
-    [DbContext(typeof(BDPMContext))]
+    [DbContext(typeof(Badge2022Context))]
     partial class BDPMContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

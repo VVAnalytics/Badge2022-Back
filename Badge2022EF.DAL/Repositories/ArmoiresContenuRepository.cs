@@ -10,7 +10,7 @@ namespace Badge2022EF.DAL.Repositories
 {
     public class ArmoiresContenuRepository : BaseRepository<ArmoiresContenu>, IArmoiresContenuRepository
     {
-        public ArmoiresContenuRepository(BDPMContext context) : base(context)
+        public ArmoiresContenuRepository(Badge2022Context context) : base(context)
         {
         }
 

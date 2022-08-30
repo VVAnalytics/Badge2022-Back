@@ -11,9 +11,21 @@ namespace Badge2022EF.DAL.Config
             builder.ToTable("personne");
             builder.HasComment("TRIAL");
 
-            builder.HasKey(m => m.Id)
+            /* builder.HasKey(m => m.Id)
            .HasName("PK_PersonneEntity")
-           .IsClustered();
+           .IsClustered(); */
+
+            builder.Property(e => e.unom)
+            .HasColumnType("nvarchar(256)")
+            .HasColumnName("unom")
+            .IsRequired()
+            .HasComment("TRIAL");
+
+            builder.Property(e => e.uprenom)
+            .HasColumnType("nvarchar(256)")
+            .HasColumnName("uprenom")
+            .IsRequired()
+            .HasComment("TRIAL");
 
             builder.Property(e => e.Email)
             .HasColumnType("nvarchar(256)")
@@ -21,28 +33,37 @@ namespace Badge2022EF.DAL.Config
             .IsRequired()
             .HasComment("TRIAL");
 
-            builder.Property(e => e.IsActive)
-            .HasColumnType("Bit")
-            .HasColumnName("IsActive")
+            builder.Property(e => e.udate)
+            .HasColumnType("date")
+            .HasColumnName("udate_naissance")
             .IsRequired()
             .HasComment("TRIAL");
 
-            builder.Property(e => e.ConnectAs)
+            builder.Property(e => e.urue)
             .HasColumnType("nvarchar(256)")
-            .HasColumnName("connectAs")
+            .HasColumnName("urue")
             .IsRequired()
             .HasComment("TRIAL");
 
-            builder.Property(e => e.CurrentRoleId)
-                .HasColumnName("currentroleid")
-                .HasComment("TRIAL");
+            builder.Property(e => e.ucodep)
+            .HasColumnType("nvarchar(5)")
+            .HasColumnName("ucodep")
+            .IsRequired()
+            .HasComment("TRIAL");
 
-            //builder.HasOne(d => d.Roles)
-            //.WithMany(p => p.Personnes)
-            //.HasForeignKey(d => d.CurrentRoleId)
-            //.HasConstraintName("FK_Personne_Role_RoleId");
+            builder.Property(e => e.uville)
+            .HasColumnType("nvarchar(256)")
+            .HasColumnName("uville")
+            .IsRequired()
+            .HasComment("TRIAL");
 
-            builder.HasMany(u => u.Roles)
+            builder.Property(e => e.upays)
+            .HasColumnType("nvarchar(256)")
+            .HasColumnName("upays")
+            .IsRequired()
+            .HasComment("TRIAL");
+
+            builder.HasMany(u => u.urole)
                     .WithMany(r => r.Personnes)
                     .UsingEntity<RoleEntity>(
                         userRole => userRole.HasOne<RoleEntity>()
@@ -52,6 +73,18 @@ namespace Badge2022EF.DAL.Config
                         userRole => userRole.HasOne<PersonneEntity>()
                             .WithMany()
                             .HasForeignKey(us => us.Id)
+                            .IsRequired());
+
+            builder.HasMany(u => u.uformation)
+                    .WithMany(r => r.Personnes)
+                    .UsingEntity<FormationEntity>(
+                        userFormation => userFormation.HasOne<FormationEntity>()
+                            .WithMany()
+                            .HasForeignKey(ur => ur.fid)
+                            .IsRequired(),
+                        userFormation => userFormation.HasOne<PersonneEntity>()
+                            .WithMany()
+                            .HasForeignKey(us => us.fid)
                             .IsRequired());
 
             builder.HasIndex(x => x.Email).IsUnique();

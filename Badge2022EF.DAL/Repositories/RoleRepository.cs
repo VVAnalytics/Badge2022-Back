@@ -8,7 +8,7 @@ namespace Badge2022EF.DAL.Repositories
 {
     public class RoleRepository : BaseRepository<Roles>, IRoleRepository
     {
-        public RoleRepository(BDPMContext context) : base(context)
+        public RoleRepository(Badge2022Context context) : base(context)
         {
         }
 

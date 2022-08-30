@@ -5,8 +5,8 @@ namespace Badge2022EF.DAL.Repositories.Abstracts
     public abstract class BaseRepository<T> : IRepository<T>
         where T : class
     {
-        protected readonly BDPMContext _db;
-        public BaseRepository(BDPMContext context)
+        protected readonly Badge2022Context _db;
+        public BaseRepository(Badge2022Context context)
         {
             _db = context;
         }

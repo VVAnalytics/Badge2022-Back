@@ -1,20 +1,25 @@
-﻿using Badge2022EF.DAL.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Badge2022EF.DAL.Entities
 {
-    public partial class PersonneEntity : IdentityUser<long>
+    public partial class PersonneEntity : IdentityUser<int>
     {
+        public string? unom { get; set; }
+        public string? uprenom { get; set; }
+
         public override string? Email { get; set; }
 
-        public string? rue { get; set; }
-        public string? codep { get; set; }
-        public string? ville { get; set; }
-        public string? pays { get; set; }
+        public string? udate { get; set; }
+        public string? urue { get; set; }
+        public string? ucodep { get; set; }
+        public string? uville { get; set; }
+        public string? upays { get; set; }
 
-        public virtual ICollection<FormationEntity>? Formations { get; set; }
+        public virtual ICollection<RoleEntity>? urole { get; set; }
 
-        public virtual ICollection<RoleEntity>? Roles { get; set; }
+        public virtual ICollection<FormationEntity>? uformation { get; set; }
+
+        public virtual ICollection<NotesEleveEntity> uNotesEleve { get; set; }
+
     }
 }
