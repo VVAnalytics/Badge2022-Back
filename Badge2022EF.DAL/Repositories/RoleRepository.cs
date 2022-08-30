@@ -51,11 +51,11 @@ namespace Badge2022EF.DAL.Repositories
         {
             return _db.Roles.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
-        public override Roles GetOne(long id)
+        public override Roles GetOne(int id)
         {
             return _db.Roles.Find(id)!.ToModel();
         }
-        public override IEnumerable<Roles> GetOne2(long id)
+        public override IEnumerable<Roles> GetOne2(int id)
         {
             yield return _db.Roles.Find(id)!.ToModel();
         }

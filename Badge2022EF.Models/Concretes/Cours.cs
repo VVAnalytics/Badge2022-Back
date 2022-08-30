@@ -4,9 +4,9 @@ namespace Badge2022EF.Models.Concretes
     {
     /// <summary>
     /// </summary>
-    public class Armoires : IArmoires
+    public class Cours : ICours
         {
-        public Armoires(long Armo_ID, string Armo_Name, long Armo_Patient)
+        public Cours(long Armo_ID, string Armo_Name, long Armo_Patient)
             {
             ArmoID = Armo_ID;
             ArmoName = Armo_Name;

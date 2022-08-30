@@ -4,9 +4,9 @@ namespace Badge2022EF.Models.Concretes
 {
     /// <summary>
     /// </summary>
-    public class Medecins : IMedecins
+    public class NotesEleves : INotesEleves
         {
-        public Medecins(string nom, string inami, string rue, string ville, string telephone, string gsm, string fax, string email)
+        public NotesEleves(string nom, string inami, string rue, string ville, string telephone, string gsm, string fax, string email)
             {
             MedecinName = nom;
             MedecinInami = inami;

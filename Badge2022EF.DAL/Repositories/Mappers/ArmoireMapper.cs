@@ -5,9 +5,9 @@ namespace Badge2022EF.DAL.Repositories.Mappers
     {
     public static class ArmoireMappers
         {
-        public static Armoires ToModel(this ArmoireEntity Entity)
+        public static Cours ToModel(this ArmoireEntity Entity)
             {
-            Armoires Armoire = new(Entity.Id, Entity.Nom ?? "", Entity.Patientid)
+            Cours Armoire = new(Entity.Id, Entity.Nom ?? "", Entity.Patientid)
             {
                 ArmoID = Entity.Id,
                 ArmoName = Entity.Nom ?? ""
@@ -15,7 +15,7 @@ namespace Badge2022EF.DAL.Repositories.Mappers
             return Armoire;
             }
 
-        public static ArmoireEntity ToEntity(this Armoires Model)
+        public static ArmoireEntity ToEntity(this Cours Model)
             {
             return new ArmoireEntity()
                 {

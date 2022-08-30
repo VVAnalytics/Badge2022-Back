@@ -3,20 +3,31 @@ namespace Badge2022EF.Models.Concretes
 {
     public class Personnes
     {
-        public Personnes(string personnesEmail, string personnesPaswword, bool personnesisactive, long personnesCurrentRoles, string personnesConnectAs)
+        public Personnes(string uNom, string uPrenom, string uEmail, DateTime uDate, string uRue, string uCodep, string uVille, string uPays)
         {
-            Email = personnesEmail;
-            Paswword = personnesPaswword;
-            Isactive = personnesisactive;
-            Currentrole = personnesCurrentRoles;
-            Connectas = personnesConnectAs;
+            unom = uNom;
+            uprenom = uPrenom;
+            Email = uEmail;
+            udate = uDate;
+            urue = uRue;
+            ucodep = uCodep;
+            uville = uVille;
+            upays = uPays;
         }
 
-        public long Id { get; set; } = long.MinValue;
-        public string Email { get; set; } = string.Empty;
-        public string Paswword { get; set; } = string.Empty;
-        public bool Isactive { get; set; } = false;
-        public long Currentrole { get; set; } = long.MinValue;
-        public string Connectas { get; set; } = string.Empty;
+        public string? unom { get; set; }
+        public string? uprenom { get; set; }
+        public string? Email { get; set; }
+        public DateTime? udate { get; set; }
+        public string? urue { get; set; }
+        public string? ucodep { get; set; }
+        public string? uville { get; set; }
+        public string? upays { get; set; }
+
+        public ICollection<Roles>? urole { get; set; }
+        public Formations? uformation { get; set; }
+        public ICollection<NotesEleves>? uNotesEleve { get; set; }
+
+
     }
 }

@@ -174,12 +174,12 @@ namespace Badge2022EF.WebApi.Controllers
                     var ar = _armoireRepository.GetAll();
                     if (!ar.Any(x => x.ArmoPatient == p.Id && x.ArmoName == email.ToUpper() + " : Pilulier"))
                     {
-                        Armoires pilulier = new(0, email.ToUpper() + " : Pilulier", p.Id);
+                        Cours pilulier = new(0, email.ToUpper() + " : Pilulier", p.Id);
                         _armoireRepository.Add(pilulier);
                     }
                     if (!ar.Any(x => x.ArmoPatient == p.Id && x.ArmoName == email.ToUpper() + " : Armoire"))
                     {
-                        Armoires armoire = new(0, email.ToUpper() + " : Armoire", p.Id);
+                        Cours armoire = new(0, email.ToUpper() + " : Armoire", p.Id);
                         _armoireRepository.Add(armoire);
                     }
                     var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
@@ -237,9 +237,9 @@ namespace Badge2022EF.WebApi.Controllers
                 {
                     _context.SaveChanges();
                     PersonneEntity r = await _userManager.FindByNameAsync(email);
-                    Armoires pilulier = new(0, email.ToUpper() + " : Pilulier", r.Id);
+                    Cours pilulier = new(0, email.ToUpper() + " : Pilulier", r.Id);
                     _armoireRepository.Add(pilulier);
-                    Armoires armoire = new(0, email.ToUpper()+" : Armoire", r.Id);
+                    Cours armoire = new(0, email.ToUpper()+" : Armoire", r.Id);
                     _armoireRepository.Add(armoire);
                     return Ok();
                 }

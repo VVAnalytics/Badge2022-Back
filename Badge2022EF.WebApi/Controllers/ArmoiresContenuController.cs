@@ -22,23 +22,23 @@ namespace Badge2022EF.WebApi.Controllers
         // GET: api/<ArmoiresContenuController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<ArmoiresContenu> GetAll()
+        public IEnumerable<Examens> GetAll()
         {
-            return new ObservableCollection<ArmoiresContenu>(_armoiresContenuRepository.GetAll()).ToList();
+            return new ObservableCollection<Examens>(_armoiresContenuRepository.GetAll()).ToList();
         }
         // GET: api/<MedecinsController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<ArmoiresContenu> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public IEnumerable<Examens> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            return new ObservableCollection<ArmoiresContenu>(_armoiresContenuRepository.GetAll(limit, offset)).ToList();
+            return new ObservableCollection<Examens>(_armoiresContenuRepository.GetAll(limit, offset)).ToList();
         }
         // GET api/<ArmoiresContenuController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<ArmoiresContenu> GetOne(long id)
+        public IEnumerable<Examens> GetOne(long id)
         {
-            IEnumerable<ArmoiresContenu> aa = _armoiresContenuRepository.GetOne2(id);
+            IEnumerable<Examens> aa = _armoiresContenuRepository.GetOne2(id);
             foreach (var item in aa) { _ = item; };
             return aa.AsEnumerable();
         }
@@ -48,7 +48,7 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien")]
         public void Post([FromQuery] J_ArmoiresContenu newArmoiresContenu)
         {
-            ArmoiresContenu armoiresContenu = new(
+            Examens armoiresContenu = new(
                         newArmoiresContenu.ACmedicamentId,
                         newArmoiresContenu.ACarmoireId,
                         newArmoiresContenu.ACordonnanceId,
@@ -64,7 +64,7 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien")]
         public void Put(long id, [FromQuery] J_ArmoiresContenu majArmoiresContenu)
         {
-            ArmoiresContenu armoiresContenu = new(
+            Examens armoiresContenu = new(
                         majArmoiresContenu.ACmedicamentId,
                         majArmoiresContenu.ACarmoireId,
                         majArmoiresContenu.ACordonnanceId,

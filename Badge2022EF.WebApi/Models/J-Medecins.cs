@@ -2,7 +2,7 @@
 
 namespace Badge2022EF.WebApi.Models
 {
-    public class J_Medecins : IMedecins
+    public class J_Medecins : IExamens
     {
         #region Fields
 

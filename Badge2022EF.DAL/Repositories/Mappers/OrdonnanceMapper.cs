@@ -5,9 +5,9 @@ namespace Badge2022EF.DAL.Repositories.Mappers
     {
     public static class OrdonnanceMappers
         {
-        public static Ordonnances ToModel(this OrdonnanceEntity Entity)
+        public static Formations ToModel(this OrdonnanceEntity Entity)
             {
-            Ordonnances Ordonnance = new(Entity.Id,
+            Formations Ordonnance = new(Entity.Id,
                                     Entity.Codebarre ?? "",
                                     Entity.Datecree,
                                     Entity.Dateexpire,
@@ -18,7 +18,7 @@ namespace Badge2022EF.DAL.Repositories.Mappers
             return Ordonnance;
             }
 
-        public static OrdonnanceEntity ToEntity(this Ordonnances Model)
+        public static OrdonnanceEntity ToEntity(this Formations Model)
             {
             return new OrdonnanceEntity()
                 {

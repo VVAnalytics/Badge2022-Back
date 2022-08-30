@@ -2,7 +2,7 @@
 
 namespace Badge2022EF.DAL.Repositories.Interface
     {
-    public interface IOrdonnanceRepository : IRepository<Ordonnances>
+    public interface IOrdonnanceRepository : IRepository<Formations>
         {
 
         }

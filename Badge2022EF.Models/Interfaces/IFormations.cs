@@ -1,6 +1,6 @@
 ﻿namespace Badge2022EF.Models.Interfaces
     {
-    public interface IArmoires
+    public interface IFormations
         {
         }
     }

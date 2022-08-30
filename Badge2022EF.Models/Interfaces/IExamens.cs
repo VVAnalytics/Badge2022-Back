@@ -1,6 +1,7 @@
 ﻿namespace Badge2022EF.Models.Interfaces
+{
+    public interface IExamens
     {
-    public interface IMedicaments
-        {
-        }
+
     }
+}

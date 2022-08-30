@@ -6,7 +6,7 @@ namespace Badge2022EF.DAL
     { 
         public int fid { get; set; } = int.MinValue;
         public string fnom { get; set; } = string.Empty;
-        public ICollection<PersonneEntity>? fPersonnes { get; set; }
-        public ICollection<CoursEntity>? fCours { get; set; }
+        public virtual ICollection<PersonneEntity>? fPersonnes { get; set; }
+        public virtual ICollection<CoursEntity>? fCours { get; set; }
     }
 }

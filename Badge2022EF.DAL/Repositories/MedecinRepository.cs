@@ -7,31 +7,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
 {
-    public class MedecinRepository : BaseRepository<Medecins>, IMedecinRepository
+    public class MedecinRepository : BaseRepository<NotesEleves>, IMedecinRepository
     {
         public MedecinRepository(Badge2022Context context) : base(context)
         {
         }
 
-        public override Medecins GetOne(long id)
+        public override NotesEleves GetOne(long id)
         {
             return _db.Medecins.Find(id)!.ToModel();
         }
-        public override IEnumerable<Medecins> GetOne2(long id)
+        public override IEnumerable<NotesEleves> GetOne2(long id)
         {
             yield return _db.Medecins.Find(id)!.ToModel();
         }
-        public IEnumerable<Medecins> GetAll(int limit, int offset)
+        public IEnumerable<NotesEleves> GetAll(int limit, int offset)
         {
             return _db.Medecins.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
 
-        public override IEnumerable<Medecins> GetAll()
+        public override IEnumerable<NotesEleves> GetAll()
         {
             return _db.Medecins.Select(m => m.ToModel());
         }
 
-        public override bool Add(Medecins Medecin)
+        public override bool Add(NotesEleves Medecin)
         {
             MedecinEntity toInsert = Medecin.ToEntity();
             _db.Medecins.Add(toInsert);
@@ -48,7 +48,7 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Update(Medecins Medecin)
+        public override bool Update(NotesEleves Medecin)
         {
             MedecinEntity toUpdate = _db.Medecins.Find(Medecin.MedecinId)!;
             toUpdate.IdMedecin = Medecin.MedecinId;

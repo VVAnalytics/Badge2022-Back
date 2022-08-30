@@ -7,6 +7,6 @@ namespace Badge2022EF.DAL
     {
         public override int Id { get; set; } = int.MinValue;
         public override string Name { get; set; } = string.Empty;
-        public ICollection<PersonneEntity>? Personnes { get; set; }
+        public virtual ICollection<PersonneEntity>? Personnes { get; set; }
     }
 }

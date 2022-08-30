@@ -8,30 +8,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
 {
-    public class ArmoiresContenuRepository : BaseRepository<ArmoiresContenu>, IArmoiresContenuRepository
+    public class ArmoiresContenuRepository : BaseRepository<Examens>, IArmoiresContenuRepository
     {
         public ArmoiresContenuRepository(Badge2022Context context) : base(context)
         {
         }
 
-        public override ArmoiresContenu GetOne(long id)
+        public override Examens GetOne(long id)
         {
             return _db.ArmoiresStocks.Find(id)!.ToModel();
         }
-        public override IEnumerable<ArmoiresContenu> GetOne2(long id)
+        public override IEnumerable<Examens> GetOne2(long id)
         {
             yield return _db.ArmoiresStocks.Find(id)!.ToModel();
         }
-        public IEnumerable<ArmoiresContenu> GetAll(int limit, int offset)
+        public IEnumerable<Examens> GetAll(int limit, int offset)
         {
             return _db.ArmoiresStocks.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
-        public override IEnumerable<ArmoiresContenu> GetAll()
+        public override IEnumerable<Examens> GetAll()
         {
             return _db.ArmoiresStocks.Select(m => m.ToModel());
         }
 
-        public override bool Add(ArmoiresContenu ArmoiresContenu)
+        public override bool Add(Examens ArmoiresContenu)
         {
             ArmoiresStockEntity toInsert = ArmoiresContenu.ToEntity();
             _db.ArmoiresStocks.Add(toInsert);
@@ -48,7 +48,7 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Update(ArmoiresContenu ArmoiresContenu)
+        public override bool Update(Examens ArmoiresContenu)
         {
             ArmoiresStockEntity toUpdate = _db.ArmoiresStocks.Find(ArmoiresContenu.ACarmoireId)!;
             toUpdate.Armoireid = ArmoiresContenu.ACarmoireId;

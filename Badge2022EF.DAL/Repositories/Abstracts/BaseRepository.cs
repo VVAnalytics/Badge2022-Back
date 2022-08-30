@@ -11,14 +11,14 @@ namespace Badge2022EF.DAL.Repositories.Abstracts
             _db = context;
         }
 
-        public abstract T GetOne(long id);
-        public abstract IEnumerable<T> GetOne2(long id);
+        public abstract T GetOne(int id);
+        public abstract IEnumerable<T> GetOne2(int id);
         public abstract IEnumerable<T> GetAll();
 
         public abstract bool Add(T Model);
 
         public abstract bool Update(T Model);
 
-        public abstract bool Delete(long id);
+        public abstract bool Delete(int id);
     }
 }

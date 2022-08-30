@@ -29,14 +29,14 @@ namespace Badge2022EF.WebApi.Controllers
         // GET: api/<OrdonnancesController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Ordonnances> GetAll()
+        public IEnumerable<Formations> GetAll()
         {
-            return new ObservableCollection<Ordonnances>(_ordonnanceRepository.GetAll()).ToList();
+            return new ObservableCollection<Formations>(_ordonnanceRepository.GetAll()).ToList();
         }
         // GET: api/<MedecinsController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Ordonnances> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public IEnumerable<Formations> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             PersonneEntity p = new();
             if (HttpContext.User.Identity is ClaimsIdentity identity)
@@ -44,13 +44,13 @@ namespace Badge2022EF.WebApi.Controllers
                 _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
                 p = (PersonneEntity)_context.Users.Include(x => x.Roles).ToList().Where(x => x.Email == _jWTEmail);
             };
-            return new ObservableCollection<Ordonnances>(_ordonnanceRepository.GetAll(limit, offset)).ToList().Where(x => x.OrdonnancePatient == p.Id);
+            return new ObservableCollection<Formations>(_ordonnanceRepository.GetAll(limit, offset)).ToList().Where(x => x.OrdonnancePatient == p.Id);
         }
 
         // GET api/<OrdonnancesController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Ordonnances> GetOne(long id)
+        public IEnumerable<Formations> GetOne(long id)
         {
             PersonneEntity p = new();
             if (HttpContext.User.Identity is ClaimsIdentity identity)
@@ -58,7 +58,7 @@ namespace Badge2022EF.WebApi.Controllers
                 _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
                 p = (PersonneEntity)_context.Users.Include(x => x.Roles).ToList().Where(x => x.Email == _jWTEmail);
             };
-            IEnumerable<Ordonnances> aa = _ordonnanceRepository.GetOne2(id);
+            IEnumerable<Formations> aa = _ordonnanceRepository.GetOne2(id);
             foreach (var item in aa) { };
             return aa.AsEnumerable().Where(x => x.OrdonnancePatient == p.Id);
         }
@@ -74,7 +74,7 @@ namespace Badge2022EF.WebApi.Controllers
                 _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
                 p = (PersonneEntity)_context.Users.Include(x => x.Roles).ToList().Where(x => x.Email == _jWTEmail);
             };
-            Ordonnances ordonnance = new(
+            Formations ordonnance = new(
                         newOrdonnance.OrdonnanceId,
                         newOrdonnance.OrdonnanceCode_barre,
                         newOrdonnance.OrdonnanceDate_creer,
@@ -101,7 +101,7 @@ namespace Badge2022EF.WebApi.Controllers
                 _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
                 p = (PersonneEntity)_context.Users.Include(x => x.Roles).ToList().Where(x => x.Email == _jWTEmail);
             };
-            Ordonnances ordonnance = new(
+            Formations ordonnance = new(
                         majOrdonnance.OrdonnanceId,
                         majOrdonnance.OrdonnanceCode_barre,
                         majOrdonnance.OrdonnanceDate_creer,
@@ -129,7 +129,7 @@ namespace Badge2022EF.WebApi.Controllers
                 _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
                 p = (PersonneEntity)_context.Users.Include(x => x.Roles).ToList().Where(x => x.Email == _jWTEmail);
             };
-            Ordonnances ar = _ordonnanceRepository.GetOne(id);
+            Formations ar = _ordonnanceRepository.GetOne(id);
             if (ar.OrdonnancePatient == p.Id) _ordonnanceRepository.Delete(id);
             _ordonnanceRepository.Delete(id);
         }

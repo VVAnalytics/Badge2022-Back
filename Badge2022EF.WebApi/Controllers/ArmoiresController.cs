@@ -29,16 +29,16 @@ namespace Badge2022EF.WebApi.Controllers
         // GET: api/<ArmoiresController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public async Task<IEnumerable<Armoires>?> GetAll()
+        public async Task<IEnumerable<Cours>?> GetAll()
         {
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 PersonneEntity user = await _userManager.FindByNameAsync(identity?.FindFirst(ClaimTypes.Name)?.Value);
-                ObservableCollection<Armoires> bb = new();
+                ObservableCollection<Cours> bb = new();
                 var cc = _armoireRepository.GetAll().ToList();
                 if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
                 {
-                    return new ObservableCollection<Armoires>(cc);
+                    return new ObservableCollection<Cours>(cc);
                 }
                 else if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Praticien")
                 {
@@ -47,9 +47,9 @@ namespace Badge2022EF.WebApi.Controllers
                                                                   .Where(y => y.Email != y.Connectas)
                                                                   .Where(z => z.Isactive = true))
                     {
-                        foreach (Armoires item2 in cc.Where(x => x.ArmoPatient == item.Id)) { bb.Add(item2); }
+                        foreach (Cours item2 in cc.Where(x => x.ArmoPatient == item.Id)) { bb.Add(item2); }
                     }
-                    return new ObservableCollection<Armoires>(bb);
+                    return new ObservableCollection<Cours>(bb);
                 }
                 else if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Patient")
                 {
@@ -57,23 +57,23 @@ namespace Badge2022EF.WebApi.Controllers
                                                                   .Where(x => x.Email == user.Email)
                                                                   .Where(z => z.Isactive = true))
                     {
-                        foreach (Armoires item2 in cc.Where(x => x.ArmoPatient == item.Id)) { bb.Add(item2); }
+                        foreach (Cours item2 in cc.Where(x => x.ArmoPatient == item.Id)) { bb.Add(item2); }
                     }
-                    return new ObservableCollection<Armoires>(bb);
+                    return new ObservableCollection<Cours>(bb);
                 }
             }
             return null;
         }
         [HttpGet]
         [Authorization("Admin")]
-        public IEnumerable<Armoires>? GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public IEnumerable<Cours>? GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
                 var cc = _armoireRepository.GetAll(limit, offset).ToList();
                 if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
                 {
-                    return new ObservableCollection<Armoires>(cc);
+                    return new ObservableCollection<Cours>(cc);
                 }
             }
             return null;
@@ -82,7 +82,7 @@ namespace Badge2022EF.WebApi.Controllers
         // GET api/<ArmoiresController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public async Task<IEnumerable<Armoires>?> GetOne(long id)
+        public async Task<IEnumerable<Cours>?> GetOne(long id)
         {
             return (await GetAll())?.AsEnumerable().Where(x => x.ArmoID == id);
         }
@@ -95,7 +95,7 @@ namespace Badge2022EF.WebApi.Controllers
             var result = await GetOne(newArmoire.ArmoID);
             if (result is not null && result.Count() < 1)
             {
-                Armoires armoire = new(
+                Cours armoire = new(
                             newArmoire.ArmoID,
                             newArmoire.ArmoName,
                             newArmoire.ArmoPatient
@@ -120,7 +120,7 @@ namespace Badge2022EF.WebApi.Controllers
             var result = await GetOne(majArmoire.ArmoID);
             if (result is not null && result.Count() > 0)
             {
-                Armoires armoire = new(
+                Cours armoire = new(
                         majArmoire.ArmoID,
                         majArmoire.ArmoName,
                         majArmoire.ArmoPatient

@@ -20,24 +20,24 @@ namespace Badge2022EF.WebApi.Controllers
 
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Medecins> GetAll()
+        public IEnumerable<NotesEleves> GetAll()
         {
-            return new ObservableCollection<Medecins>(_medecinRepository.GetAll()).ToList();
+            return new ObservableCollection<NotesEleves>(_medecinRepository.GetAll()).ToList();
         }
 
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Medecins> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
+        public IEnumerable<NotesEleves> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            return new ObservableCollection<Medecins>(_medecinRepository.GetAll(limit, offset)).ToList();
+            return new ObservableCollection<NotesEleves>(_medecinRepository.GetAll(limit, offset)).ToList();
         }
 
         // GET api/<MedecinsController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Medecins> GetOne(long id)
+        public IEnumerable<NotesEleves> GetOne(long id)
         {
-            IEnumerable<Medecins> aa = _medecinRepository.GetOne2(id);
+            IEnumerable<NotesEleves> aa = _medecinRepository.GetOne2(id);
             foreach (var item in aa)  { _ = item; };
             return aa.AsEnumerable();
         }
@@ -47,7 +47,7 @@ namespace Badge2022EF.WebApi.Controllers
         public void Post(J_Medecins newMedecin)
         //public void Post(J_Medecins newMedecin)
         {
-            Medecins medecin = new(
+            NotesEleves medecin = new(
                                     newMedecin.MedecinName,
                                     newMedecin.MedecinInami,
                                     newMedecin.MedecinRue,
@@ -68,7 +68,7 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien")]
         public void Put([FromQuery] long id, [FromQuery] J_Medecins majMedecin)
         {
-            Medecins medecin = new(
+            NotesEleves medecin = new(
                         majMedecin.MedecinName,
                         majMedecin.MedecinInami,
                         majMedecin.MedecinRue,

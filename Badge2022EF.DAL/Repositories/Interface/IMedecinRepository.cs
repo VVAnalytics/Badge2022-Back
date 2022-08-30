@@ -2,7 +2,7 @@
 
 namespace Badge2022EF.DAL.Repositories.Interface
 {
-    public interface IMedecinRepository : IRepository<Medecins>
+    public interface IMedecinRepository : IRepository<NotesEleves>
     {
          
     }

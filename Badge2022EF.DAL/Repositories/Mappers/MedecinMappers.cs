@@ -5,9 +5,9 @@ namespace Badge2022EF.DAL.Repositories.Mappers
 {
     public static class MedecinMappers  
     {
-        public static Medecins ToModel(this MedecinEntity Entity)
+        public static NotesEleves ToModel(this MedecinEntity Entity)
         {
-            Medecins Medecin = new(Entity.Nom ?? "",
+            NotesEleves Medecin = new(Entity.Nom ?? "",
                                     Entity.Inami ?? "",
                                     Entity.Rue ?? "",
                                     Entity.Ville ?? "",
@@ -21,7 +21,7 @@ namespace Badge2022EF.DAL.Repositories.Mappers
             return Medecin;
         }
 
-        public static MedecinEntity ToEntity(this Medecins Model)
+        public static MedecinEntity ToEntity(this NotesEleves Model)
         {
             return   new MedecinEntity()
             {

@@ -7,30 +7,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
     {
-    public class OrdonnanceRepository : BaseRepository<Ordonnances>, IOrdonnanceRepository
+    public class OrdonnanceRepository : BaseRepository<Formations>, IOrdonnanceRepository
         {
         public OrdonnanceRepository(Badge2022Context context) : base(context)
         {
         }
 
-        public override Ordonnances GetOne(long id)
+        public override Formations GetOne(long id)
             {
             return _db.Ordonnances.Find(id)!.ToModel();
             }
-        public override IEnumerable<Ordonnances> GetOne2(long id)
+        public override IEnumerable<Formations> GetOne2(long id)
         {
             yield return _db.Ordonnances.Find(id)!.ToModel();
         }
-        public override IEnumerable<Ordonnances> GetAll()
+        public override IEnumerable<Formations> GetAll()
             {
             return _db.Ordonnances.Select(m => m.ToModel());
             }
-        public IEnumerable<Ordonnances> GetAll(int limit, int offset)
+        public IEnumerable<Formations> GetAll(int limit, int offset)
         {
             return _db.Ordonnances.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
 
-        public override bool Add(Ordonnances Ordonnance)
+        public override bool Add(Formations Ordonnance)
             {
             OrdonnanceEntity toInsert = Ordonnance.ToEntity();
             _db.Ordonnances.Add(toInsert);
@@ -47,7 +47,7 @@ namespace Badge2022EF.DAL.Repositories
                 }
             }
 
-        public override bool Update(Ordonnances Ordonnance)
+        public override bool Update(Formations Ordonnance)
         {
             OrdonnanceEntity toUpdate = _db.Ordonnances.Find(Ordonnance.OrdonnanceId)!;
             toUpdate.Id = Ordonnance.OrdonnanceId;

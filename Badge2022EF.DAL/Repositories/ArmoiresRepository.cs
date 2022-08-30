@@ -8,30 +8,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.DAL.Repositories
     {
-    public class ArmoireRepository : BaseRepository<Armoires>, IArmoiresRepository
+    public class ArmoireRepository : BaseRepository<Cours>, IArmoiresRepository
         {
         public ArmoireRepository(Badge2022Context context) : base(context)
         {
         }
 
-        public override Armoires GetOne(long id)
+        public override Cours GetOne(long id)
         {
             return _db.Armoires.Find(id)!.ToModel();
         }
-        public override IEnumerable<Armoires> GetOne2(long id)
+        public override IEnumerable<Cours> GetOne2(long id)
             {
             yield return _db.Armoires.Find(id)!.ToModel();
             }
-        public IEnumerable<Armoires> GetAll(int limit, int offset)
+        public IEnumerable<Cours> GetAll(int limit, int offset)
         {
             return _db.Armoires.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
-        public override IEnumerable<Armoires> GetAll()
+        public override IEnumerable<Cours> GetAll()
             {
             return _db.Armoires.Select(m => m.ToModel());
             }
 
-        public override bool Add(Armoires Armoire)
+        public override bool Add(Cours Armoire)
             {
             ArmoireEntity toInsert = Armoire.ToEntity();
             _db.Armoires.Add(toInsert);
@@ -48,7 +48,7 @@ namespace Badge2022EF.DAL.Repositories
                 }
             }
 
-        public override bool Update(Armoires Armoire)
+        public override bool Update(Cours Armoire)
         {
             ArmoireEntity toUpdate = _db.Armoires.Find(Armoire.ArmoID)!;
             toUpdate.Id = Armoire.ArmoID;
