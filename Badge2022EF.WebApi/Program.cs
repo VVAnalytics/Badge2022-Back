@@ -18,17 +18,14 @@ builder.Services.AddCors(
 	});
 
 builder.Services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
-builder.Services.AddScoped<ArmoiresContenuRepository>();
-builder.Services.AddScoped<ArmoireRepository>();
-builder.Services.AddScoped<MedecinRepository>();
-builder.Services.AddScoped<MedicamentRepository>();
-builder.Services.AddScoped<MedicamentsPrescritRepository>();
-builder.Services.AddScoped<OrdonnanceRepository>();
+builder.Services.AddScoped<CoursRepository>();
+builder.Services.AddScoped<ExamenRepository>();
+builder.Services.AddScoped<FormationsRepository>();
+builder.Services.AddScoped<NotesElevesRepository>();
 builder.Services.AddScoped<PersonneRepository>();
-builder.Services.AddScoped<PharmacieRepository>();
 builder.Services.AddScoped<RoleRepository>();
 
-builder.Services.AddDbContext<BDPMContext>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Badge2022Works")));
+builder.Services.AddDbContext<Badge2022Context>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Badge2022Works")));
 
 builder.Services.AddIdentity<PersonneEntity, RoleEntity>(
                 options => {
@@ -40,7 +37,7 @@ builder.Services.AddIdentity<PersonneEntity, RoleEntity>(
                     options.Password.RequiredUniqueChars = 1;
                 })
                 .AddRoles<RoleEntity>()
-                .AddEntityFrameworkStores<BDPMContext>()
+                .AddEntityFrameworkStores<Badge2022Context>()
                 .AddDefaultTokenProviders();
 
 // Add services to the container.
