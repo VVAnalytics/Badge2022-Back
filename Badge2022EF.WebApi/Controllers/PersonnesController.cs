@@ -22,21 +22,18 @@ namespace Badge2022EF.WebApi.Controllers
         private readonly SignInManager<PersonneEntity> _signInManager;
         private readonly UserManager<PersonneEntity> _userManager;
         private readonly RoleManager<RoleEntity> _roleManager;
-        private readonly ArmoireRepository _armoireRepository;
-        private readonly BDPMContext _context;
+        private readonly Badge2022Context _context;
 
         public PersonnesController( IJWTManagerRepository jWTManager, 
                                     PersonneRepository personneRepository, 
                                     SignInManager<PersonneEntity> signInManager, 
                                     UserManager<PersonneEntity> userManager, 
                                     RoleManager<RoleEntity> roleManager,
-                                    BDPMContext context,
-                                    ArmoireRepository armoireRepository
+                                    Badge2022Context context
             )
         {
             _jWTManager = jWTManager;
             _personneRepository = personneRepository;
-            _armoireRepository = armoireRepository;
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -48,39 +45,25 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien")]
         public IEnumerable<PersonneEntity> GetAll()
         {
-            return _context.Users.Include(x => x.Roles).ToList() ;
+            return _context.Users.Include(x => x.urole).ToList() ;
         }
 
         [HttpGet]
         [Authorization("Admin", "Praticien")]
         public IEnumerable<PersonneEntity> GetAllAs([FromQuery] string connectAs)
         {
-            return new ObservableCollection<PersonneEntity>(_context.Users.Include(x => x.Roles).ToList())
-                .Where(x => x.ConnectAs == connectAs && x.IsActive == true);
+            return new ObservableCollection<PersonneEntity>(_context.Users.Include(x => x.urole).ToList());
         }
 
         // GET api/<PersonnesController>/5
         [HttpGet]
         [Authorization("Admin", "Praticien")]
-        public IEnumerable<Personnes>? GetOne([FromQuery] long id)
+        public IEnumerable<Personnes>? GetOne([FromQuery] int id)
         {
             IEnumerable<Personnes> aa = _personneRepository.GetOne2(id);
             if (aa != null) {
                 foreach (var item in aa) { _ = item; };
                 return aa.AsEnumerable();
-            }
-            return null;
-        }
-
-        [HttpGet]
-        [Authorization("Admin", "Praticien")]
-        public Personnes? GetOneAs([FromQuery] long id, [FromQuery] string connectAs)
-        {
-            Personnes ar = _personneRepository.GetOne(id);
-            if (ar != null) {
-                if (ar.Connectas != connectAs) return null;
-                if (ar.Isactive != true) return null;
-                return _personneRepository.GetOne(id);
             }
             return null;
         }
@@ -91,12 +74,9 @@ namespace Badge2022EF.WebApi.Controllers
         public async Task<IActionResult> Post([FromQuery] J_Personnes newPersonne)
         {
             PersonneEntity user = new();
-            var result = await _signInManager.CheckPasswordSignInAsync(user, newPersonne.Paswword, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, newPersonne.PasswordHash, false);
             if (result.Succeeded)
             {
-                user.ConnectAs = newPersonne.ConnectAs;
-                user.IsActive = newPersonne.Isactive;
-                user.CurrentRoleId = newPersonne.Currentrole;
                 user.Email = newPersonne.Email;
                 user.UserName = newPersonne.Email;
                 user.EmailConfirmed = true;
@@ -117,15 +97,12 @@ namespace Badge2022EF.WebApi.Controllers
         // PUT api/<PersonnesController>/5
         [HttpPut("{id}")]
         [Authorization("Admin", "Praticien")]
-        public async Task<IActionResult> Put(long id, [FromBody] J_Personnes majPersonne)
+        public async Task<IActionResult> Put(int id, [FromBody] J_Personnes majPersonne)
         {
             PersonneEntity user = await _userManager.FindByIdAsync(id.ToString());
-            var result = await _signInManager.CheckPasswordSignInAsync(user, majPersonne.Paswword, false);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, majPersonne.PasswordHash, false);
             if (result.Succeeded)
             {
-                user.ConnectAs = majPersonne.ConnectAs;
-                user.IsActive = majPersonne.Isactive;
-                user.CurrentRoleId = majPersonne.Currentrole;
                 user.Email = majPersonne.Email;
                 user.UserName = majPersonne.Email;
                 user.EmailConfirmed = true;
@@ -146,10 +123,9 @@ namespace Badge2022EF.WebApi.Controllers
         // DELETE api/<PersonnesController>/5
         [HttpDelete("{id}")]
         [Authorization("Admin", "Praticien")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> Delete(int id)
         {
             PersonneEntity user = await _userManager.FindByIdAsync(id.ToString());
-            user.IsActive = false;
             try
             {
                 _context.SaveChanges();
@@ -169,19 +145,6 @@ namespace Badge2022EF.WebApi.Controllers
             PersonneEntity p = await _userManager.FindByNameAsync(email);
             if (p != null)
             {
-                if (p.IsActive == true)
-                {
-                    var ar = _armoireRepository.GetAll();
-                    if (!ar.Any(x => x.ArmoPatient == p.Id && x.ArmoName == email.ToUpper() + " : Pilulier"))
-                    {
-                        Cours pilulier = new(0, email.ToUpper() + " : Pilulier", p.Id);
-                        _armoireRepository.Add(pilulier);
-                    }
-                    if (!ar.Any(x => x.ArmoPatient == p.Id && x.ArmoName == email.ToUpper() + " : Armoire"))
-                    {
-                        Cours armoire = new(0, email.ToUpper() + " : Armoire", p.Id);
-                        _armoireRepository.Add(armoire);
-                    }
                     var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
                     if (result.Succeeded)
                     {
@@ -189,7 +152,7 @@ namespace Badge2022EF.WebApi.Controllers
                         {
                             Email = email
                         };
-                        RoleEntity q = await _roleManager.FindByIdAsync(p.CurrentRoleId.ToString());
+                        RoleEntity q = await _roleManager.FindByIdAsync(p.urole.Select(x=> x.Id).ToString());
                         BigUsers.Role = q.Name;
 
                         var token = _jWTManager.Authenticate(BigUsers);
@@ -203,11 +166,6 @@ namespace Badge2022EF.WebApi.Controllers
                     {
                         return Unauthorized();
                     }
-                }
-                else
-                {
-                    return Unauthorized();
-                }
             }
             else
             {
@@ -225,10 +183,7 @@ namespace Badge2022EF.WebApi.Controllers
                 PersonneEntity user = new()
                 {
                     Email = email,
-                    CurrentRoleId = 2,
                     UserName = email,
-                    ConnectAs = email,
-                    IsActive = false,
                     EmailConfirmed = true,
                     SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString()
                 };
@@ -237,10 +192,6 @@ namespace Badge2022EF.WebApi.Controllers
                 {
                     _context.SaveChanges();
                     PersonneEntity r = await _userManager.FindByNameAsync(email);
-                    Cours pilulier = new(0, email.ToUpper() + " : Pilulier", r.Id);
-                    _armoireRepository.Add(pilulier);
-                    Cours armoire = new(0, email.ToUpper()+" : Armoire", r.Id);
-                    _armoireRepository.Add(armoire);
                     return Ok();
                 }
                 catch (Exception)
@@ -265,10 +216,7 @@ namespace Badge2022EF.WebApi.Controllers
                     PersonneEntity user = new()
                     {
                         Email = emailPraticien,
-                        CurrentRoleId = 3,
                         UserName = emailPraticien,
-                        ConnectAs = emailPraticien,
-                        IsActive = true,
                         EmailConfirmed = true,
                         SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString()
                     };
@@ -304,8 +252,6 @@ namespace Badge2022EF.WebApi.Controllers
                     var result = await _signInManager.CheckPasswordSignInAsync(p, praticienPassword, false);
                     if (result.Succeeded)
                     {
-                        p.ConnectAs = praticienEmail;
-                        p.IsActive = true;
                         try
                         {
                             _context.SaveChanges();

@@ -1,14 +1,18 @@
 ﻿using Badge2022EF.Models.Interfaces;
+using Microsoft.AspNetCore.Identity;
+
 namespace Badge2022EF.WebApi.Models
 {
-    public class J_Personnes : IPersonnes
+    public class J_Personnes : IdentityUser
     {
-        public long Id { get; set; } = long.MinValue;
-        public string Email { get; set; } = string.Empty;
-        public string Paswword { get; set; } = string.Empty;
-        public bool Isactive { get; set; } = false;
-        public long Currentrole { get; set; } = 2;
-        public string ConnectAs { get; set; } = string.Empty;
+        public string? unom { get; set; } = string.Empty;
+        public string? uprenom { get; set; } = string.Empty;
+        public string? Email { get; set; } = string.Empty;
+        public DateTime? udate { get; set; } = DateTime.MinValue;
+        public string? urue { get; set; } = string.Empty;
+        public string? ucodep { get; set; } = string.Empty;
+        public string? uville { get; set; } = string.Empty;
+        public string? upays { get; set; } = string.Empty;
 
     }
 }

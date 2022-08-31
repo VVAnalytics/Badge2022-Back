@@ -12,11 +12,11 @@ namespace Badge2022EF.DAL.Config
                 builder.HasComment("TRIAL");
 
                 builder.HasKey(sc => new { sc.npid, sc.ncid });
-                builder.HasOne<PersonneEntity>(sc => sc.Personnes)
+                builder.HasOne<PersonneEntity>(sc => sc.nPersonnes)
                     .WithMany(s => s.uNotesEleve)
                     .HasForeignKey(sc => sc.npid);
 
-                builder.HasOne<CoursEntity>(sc => sc.Cours)
+                builder.HasOne<CoursEntity>(sc => sc.nCours)
                     .WithMany(s => s.cNotesEleve)
                     .HasForeignKey(sc => sc.ncid);
 

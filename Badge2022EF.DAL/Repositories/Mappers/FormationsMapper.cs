@@ -15,7 +15,11 @@ namespace Badge2022EF.DAL.Repositories.Mappers
             };
             return Formation;
             }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Model"></param>
+        /// <returns></returns>
         public static FormationEntity ToEntity(this Formations Model)
             {
             return new FormationEntity()

@@ -1,7 +1,9 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+
 namespace Badge2022EF.Models.Concretes
 {
-    public class Personnes
+    public class Personnes : IdentityUser
     {
         public Personnes(string uNom, string uPrenom, string uEmail, DateTime uDate, string uRue, string uCodep, string uVille, string uPays)
         {

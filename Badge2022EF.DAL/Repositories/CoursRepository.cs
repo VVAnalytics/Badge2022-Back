@@ -21,18 +21,18 @@ namespace Badge2022EF.DAL.Repositories
         {
             yield return _db.Cours.Find(id)!.ToModel();
         }
-        public override IEnumerable<Formations> GetAll()
+        public override IEnumerable<Cours> GetAll()
             {
             return _db.Cours.Select(m => m.ToModel());
             }
-        public IEnumerable<Formations> GetAll(int limit, int offset)
+        public IEnumerable<Cours> GetAll(int limit, int offset)
         {
             return _db.Cours.Skip(offset).Take(limit).Select(m => m.ToModel());
         }
 
         public override bool Add(Cours cours)
             {
-            CoursEntity toInsert = Cours.ToEntity();
+            CoursEntity toInsert = cours.ToEntity();
             _db.Cours.Add(toInsert);
 
             try
@@ -50,9 +50,9 @@ namespace Badge2022EF.DAL.Repositories
         public override bool Update(Cours cours)
         {
             CoursEntity toUpdate = _db.Cours.Find(cours.cid)!;
-            toUpdate.Id = cours.cid;
+            toUpdate.cid = cours.cid;
             _db.Cours.Remove(_db.Cours.Find(cours.cid)!);
-            toUpdate = Cours.ToEntity();
+            toUpdate = cours.ToEntity();
             _db.Cours.Add(toUpdate);
 
             try

@@ -7,7 +7,7 @@ namespace Badge2022EF.DAL.Entities
         public string? unom { get; set; }
         public string? uprenom { get; set; }
         public override string? Email { get; set; }
-        public string? udate { get; set; }
+        public DateTime? udate { get; set; }
         public string? urue { get; set; }
         public string? ucodep { get; set; }
         public string? uville { get; set; }

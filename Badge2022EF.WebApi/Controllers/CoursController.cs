@@ -13,20 +13,20 @@ namespace Badge2022EF.WebApi.Controllers
     [Authorization]
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class ArmoiresController : ControllerBase
+    public class NotesElevesController : ControllerBase
     {
-        private readonly ArmoireRepository _armoireRepository;
+        private readonly NotesElevesRepository _NotesEleveRepository;
         private readonly PersonneRepository _personneRepository;
         private readonly UserManager<PersonneEntity> _userManager;
 
-        public ArmoiresController(PersonneRepository personneRepository, ArmoireRepository armoireRepository , UserManager<PersonneEntity> userManager)
+        public NotesElevesController(PersonneRepository personneRepository, NotesElevesRepository NotesEleveRepository , UserManager<PersonneEntity> userManager)
         {
             _personneRepository = personneRepository;
-            _armoireRepository = armoireRepository;
+            _NotesEleveRepository = NotesEleveRepository;
             _userManager = userManager;
         }
 
-        // GET: api/<ArmoiresController>
+        // GET: api/<NotesElevesController>
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
         public async Task<IEnumerable<Cours>?> GetAll()
@@ -35,19 +35,16 @@ namespace Badge2022EF.WebApi.Controllers
             {
                 PersonneEntity user = await _userManager.FindByNameAsync(identity?.FindFirst(ClaimTypes.Name)?.Value);
                 ObservableCollection<Cours> bb = new();
-                var cc = _armoireRepository.GetAll().ToList();
+                var cc = _NotesEleveRepository.GetAll().ToList();
                 if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
                 {
                     return new ObservableCollection<Cours>(cc);
                 }
                 else if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Praticien")
                 {
-                    foreach (Personnes item in _personneRepository.GetAll()
-                                                                  .Where(x => x.Connectas == user.ConnectAs)
-                                                                  .Where(y => y.Email != y.Connectas)
-                                                                  .Where(z => z.Isactive = true))
+                    foreach (Personnes item in _personneRepository.GetAll())
                     {
-                        foreach (Cours item2 in cc.Where(x => x.ArmoPatient == item.Id)) { bb.Add(item2); }
+                        foreach (Cours item2 in cc.Where(x => x.ncid == item.Id)) { bb.Add(item2); }
                     }
                     return new ObservableCollection<Cours>(bb);
                 }
@@ -70,7 +67,7 @@ namespace Badge2022EF.WebApi.Controllers
         {
             if (HttpContext.User.Identity is ClaimsIdentity identity)
             {
-                var cc = _armoireRepository.GetAll(limit, offset).ToList();
+                var cc = _NotesEleveRepository.GetAll(limit, offset).ToList();
                 if (identity?.FindFirst(ClaimTypes.Role)?.Value == "Admin")
                 {
                     return new ObservableCollection<Cours>(cc);
@@ -79,7 +76,7 @@ namespace Badge2022EF.WebApi.Controllers
             return null;
         }
 
-        // GET api/<ArmoiresController>/5
+        // GET api/<NotesElevesController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
         public async Task<IEnumerable<Cours>?> GetOne(long id)
@@ -87,63 +84,63 @@ namespace Badge2022EF.WebApi.Controllers
             return (await GetAll())?.AsEnumerable().Where(x => x.ArmoID == id);
         }
 
-        // POST api/<ArmoiresController>
+        // POST api/<NotesElevesController>
         [HttpPost]
         [Authorization("Admin", "Praticien")]
-        public async Task<bool>Post([FromBody] J_Armoires newArmoire)
+        public async Task<bool>Post([FromBody] J_NotesEleves newNotesEleve)
         {
-            var result = await GetOne(newArmoire.ArmoID);
+            var result = await GetOne(newNotesEleve.ArmoID);
             if (result is not null && result.Count() < 1)
             {
-                Cours armoire = new(
-                            newArmoire.ArmoID,
-                            newArmoire.ArmoName,
-                            newArmoire.ArmoPatient
+                Cours NotesEleve = new(
+                            newNotesEleve.ArmoID,
+                            newNotesEleve.ArmoName,
+                            newNotesEleve.ArmoPatient
                             );
                 if (HttpContext.User.Identity is ClaimsIdentity identity)
                 {
                     var user = _userManager.FindByNameAsync(identity?.FindFirst(ClaimTypes.Name)?.Value);
-                    armoire.ArmoID = 0;
-                    armoire.ArmoPatient = user.Result.Id;
-                    _armoireRepository.Add(armoire);
+                    NotesEleve.ArmoID = 0;
+                    NotesEleve.ArmoPatient = user.Result.Id;
+                    _NotesEleveRepository.Add(NotesEleve);
                     return true;
                 }
             }
             return false;
         }
 
-        // PUT api/<ArmoiresController>/5
+        // PUT api/<NotesElevesController>/5
         [HttpPut("{id}")]
         [Authorization("Admin", "Praticien")]
-        public async Task<bool>Put(long id, [FromQuery] J_Armoires majArmoire)
+        public async Task<bool>Put(long id, [FromQuery] J_NotesEleves majNotesEleve)
         {
-            var result = await GetOne(majArmoire.ArmoID);
+            var result = await GetOne(majNotesEleve.ArmoID);
             if (result is not null && result.Count() > 0)
             {
-                Cours armoire = new(
-                        majArmoire.ArmoID,
-                        majArmoire.ArmoName,
-                        majArmoire.ArmoPatient
+                Cours NotesEleve = new(
+                        majNotesEleve.ArmoID,
+                        majNotesEleve.ArmoName,
+                        majNotesEleve.ArmoPatient
                         );
                 if (HttpContext.User.Identity is ClaimsIdentity identity)
                 {
                     var user = _userManager.FindByNameAsync(identity?.FindFirst(ClaimTypes.Name)?.Value);
-                    armoire.ArmoID = id;
-                    armoire.ArmoPatient = user.Result.Id;
-                    _armoireRepository.Update(armoire);
+                    NotesEleve.ArmoID = id;
+                    NotesEleve.ArmoPatient = user.Result.Id;
+                    _NotesEleveRepository.Update(NotesEleve);
                     return true;
                 }
             }
             return false;
         }
 
-        // DELETE api/<ArmoiresController>/5
+        // DELETE api/<NotesElevesController>/5
         [HttpDelete("{id}")]
         [Authorization("Admin")]
         public async Task<bool?> Delete(long id)
         {
             var result = await GetOne(id);
-            if (result is not null && result.Count() > 0) { _armoireRepository.Delete(id); return true; }
+            if (result is not null && result.Count() > 0) { _NotesEleveRepository.Delete(id); return true; }
             return false;
         }
     }

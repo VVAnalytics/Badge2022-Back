@@ -13,11 +13,11 @@ namespace Badge2022EF.DAL.Repositories
         {
         }
 
-        public override Personnes GetOne(long id)
+        public override Personnes GetOne(int id)
         {
             return _db.Personnes.Find(id)!.ToModel();
         }
-        public override IEnumerable<Personnes> GetOne2(long id)
+        public override IEnumerable<Personnes> GetOne2(int id)
         {
             yield return _db.Personnes.Find(id)!.ToModel();
         }
@@ -43,7 +43,7 @@ namespace Badge2022EF.DAL.Repositories
         public override bool Update(Personnes Personne)
         {
             PersonneEntity toUpdate = _db.Personnes.Find(Personne.Id)!;
-            toUpdate.Id = Personne.Id;
+            toUpdate.Id = int.Parse(Personne.Id);
             _db.Personnes.Remove(_db.Personnes.Find(Personne.Id)!);
             toUpdate = Personne.ToEntity();
             _db.Personnes.Add(toUpdate);
@@ -58,7 +58,7 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Delete(long id)
+        public override bool Delete(int id)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace Badge2022EF.DAL.Repositories
             // https://codepedia.info/jwt-authentication-in-aspnet-core-web-api-token
             foreach (Personnes pers in this.GetAll().ToList())
             {
-                if (pers.Paswword == password && pers.Email == email && pers.Isactive) return true;
+                if (pers.PasswordHash == password && pers.Email == email ) return true;
             }
             return false;
         }

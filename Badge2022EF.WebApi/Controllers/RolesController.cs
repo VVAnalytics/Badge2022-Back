@@ -35,7 +35,7 @@ namespace Badge2022EF.WebApi.Controllers
         // GET api/<RolesController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<Roles> GetOne(long id)
+        public IEnumerable<Roles> GetOne(int id)
         {
             IEnumerable<Roles> aa = _roleRepository.GetOne2(id);
             foreach (var item in aa) { _ = item; };
@@ -59,7 +59,7 @@ namespace Badge2022EF.WebApi.Controllers
         // PUT api/<RolesController>/5
         [HttpPut("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Put(long id, [FromBody] J_Roles majRole)
+        public void Put(int id, [FromBody] J_Roles majRole)
         {
             Roles role = new(
                         majRole.Name
@@ -73,7 +73,7 @@ namespace Badge2022EF.WebApi.Controllers
         // DELETE api/<RolesController>/5
         [HttpDelete("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Delete(long id)
+        public void Delete(int id)
         {
             _roleRepository.Delete(id);
         }
