@@ -29,7 +29,7 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Delete(long id)
+        public override bool Delete(int id)
         {
             try
             {

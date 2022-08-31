@@ -6,7 +6,7 @@ namespace Badge2022EF.Models.Concretes
     /// </summary>
     public class Cours : ICours
         {
-        public Cours(int Cid, string Cnom, long Armo_Patient)
+        public Cours(int Cid, string Cnom)
             {
             cid = Cid;
             cnom = Cnom;
