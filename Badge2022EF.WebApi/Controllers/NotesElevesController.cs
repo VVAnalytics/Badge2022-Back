@@ -10,86 +10,74 @@ namespace Badge2022EF.WebApi.Controllers
     [Authorization]
     [ApiController]
     [Route("api/[controller]/[action]")]
-    public class MedecinsController : ControllerBase
+    public class NotesElevesController : ControllerBase
     {
-        private readonly MedecinRepository _medecinRepository;
-        public MedecinsController(MedecinRepository medecinRepository)
+        private readonly NotesElevesRepository _notesEleveRepository;
+        public NotesElevesController(NotesElevesRepository NotesEleveRepository)
         {
-            _medecinRepository = medecinRepository;
+            _notesEleveRepository = NotesEleveRepository;
         }
 
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
         public IEnumerable<NotesEleves> GetAll()
         {
-            return new ObservableCollection<NotesEleves>(_medecinRepository.GetAll()).ToList();
+            return new ObservableCollection<NotesEleves>(_notesEleveRepository.GetAll()).ToList();
         }
 
         [HttpGet]
         [Authorization("Admin", "Praticien", "Patient")]
         public IEnumerable<NotesEleves> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            return new ObservableCollection<NotesEleves>(_medecinRepository.GetAll(limit, offset)).ToList();
+            return new ObservableCollection<NotesEleves>(_notesEleveRepository.GetAll(limit, offset)).ToList();
         }
 
-        // GET api/<MedecinsController>/5
+        // GET api/<NotesElevesController>/5
         [HttpGet("{id}")]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<NotesEleves> GetOne(long id)
+        public IEnumerable<NotesEleves> GetOne(int id)
         {
-            IEnumerable<NotesEleves> aa = _medecinRepository.GetOne2(id);
+            IEnumerable<NotesEleves> aa = _notesEleveRepository.GetOne2(id);
             foreach (var item in aa)  { _ = item; };
             return aa.AsEnumerable();
         }
-        // POST api/<MedecinsController>/create
+        // POST api/<NotesElevesController>/create
         [HttpPost]
         [Authorization("Admin", "Praticien")]
-        public void Post(J_Medecins newMedecin)
-        //public void Post(J_Medecins newMedecin)
+        public void Post(J_NotesEleves newNotesEleve)
+        //public void Post(J_NotesEleves newNotesEleve)
         {
-            NotesEleves medecin = new(
-                                    newMedecin.MedecinName,
-                                    newMedecin.MedecinInami,
-                                    newMedecin.MedecinRue,
-                                    newMedecin.MedecinVille,
-                                    newMedecin.MedecinTelephone,
-                                    newMedecin.MedecinGsm,
-                                    newMedecin.MedecinFax,
-                                    newMedecin.MedecinEmail
+            NotesEleves NotesEleve = new(
+                        newNotesEleve.npid,
+                        newNotesEleve.ncid,
+                        newNotesEleve.nnote
                                     )
             {
-                MedecinId = 0
             };
-            _medecinRepository.Add(medecin);
+            _notesEleveRepository.Add(NotesEleve);
         }
 
-        // PUT api/<MedecinsController>/update/5
+        // PUT api/<NotesElevesController>/update/5
         [HttpPut("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Put([FromQuery] long id, [FromQuery] J_Medecins majMedecin)
+        public void Put([FromQuery] int id, [FromQuery] J_NotesEleves majNotesEleve)
         {
-            NotesEleves medecin = new(
-                        majMedecin.MedecinName,
-                        majMedecin.MedecinInami,
-                        majMedecin.MedecinRue,
-                        majMedecin.MedecinVille,
-                        majMedecin.MedecinTelephone,
-                        majMedecin.MedecinGsm,
-                        majMedecin.MedecinFax,
-                        majMedecin.MedecinEmail
+            NotesEleves NotesEleve = new(
+                        majNotesEleve.npid,
+                        majNotesEleve.ncid,
+                        majNotesEleve.nnote
                         )
             {
-                MedecinId = id
             };
-            _medecinRepository.Update(medecin);
+            _notesEleveRepository.Update(NotesEleve);
         }
 
-        // DELETE api/<MedecinsController>/delete/5
+        // DELETE api/<NotesElevesController>/delete/5
         [HttpDelete("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Delete(long id)
+        public void Delete(int id)
         {
-            _medecinRepository.Delete(id);
+            _notesEleveRepository.Delete(id);
         }
     }
 }

@@ -48,16 +48,12 @@ namespace Badge2022EF.WebApi.Controllers
         public void Post([FromBody] J_Examens newExamen)
         {
             Examens Examen = new(
-                        newExamen.ExamenUrl,
-                        newExamen.ExamenNom,
-                        newExamen.ExamenTitulaires,
-                        newExamen.ExamenRue,
-                        newExamen.ExamenVilles,
-                        newExamen.ExamenDepartement,
-                        newExamen.ExamenRegion
+                        newExamen.eid,
+                        newExamen.enom,
+                        newExamen.enote
                         )
             {
-                ExamenId = 0
+                eid = 0
             };
             _ExamenRepository.Add(Examen);
         }
@@ -68,16 +64,11 @@ namespace Badge2022EF.WebApi.Controllers
         public void Put(long id, [FromBody] J_Examens majExamen)
         {
             Examens Examen = new(
-                        majExamen.ExamenUrl,
-                        majExamen.ExamenNom,
-                        majExamen.ExamenTitulaires,
-                        majExamen.ExamenRue,
-                        majExamen.ExamenVilles,
-                        majExamen.ExamenDepartement,
-                        majExamen.ExamenRegion
+                        majExamen.eid,
+                        majExamen.enom,
+                        majExamen.enote
                         )
             {
-                ExamenId = id
             };
             _ExamenRepository.Update(Examen);
         }
