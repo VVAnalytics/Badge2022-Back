@@ -1,4 +1,5 @@
 ﻿using Badge2022EF.Models.Interfaces;
+using System.Security.Cryptography;
 
 namespace Badge2022EF.Models.Concretes
     {
@@ -6,14 +7,12 @@ namespace Badge2022EF.Models.Concretes
     /// </summary>
     public class Cours : ICours
         {
-        public Cours(long Armo_ID, string Armo_Name, long Armo_Patient)
+        public Cours(int Cid, string Cnom, long Armo_Patient)
             {
-            ArmoID = Armo_ID;
-            ArmoName = Armo_Name;
-            ArmoPatient = Armo_Patient;
+            cid = Cid;
+            cnom = Cnom;
             }
-        public long ArmoID { get; set; } = long.MinValue;
-        public string ArmoName { get; set; } = string.Empty;
-        public long ArmoPatient { get; set; } = long.MinValue;
-    }
+        public int cid { get; set; } = int.MinValue;
+        public string cnom { get; set; } = string.Empty;
+        }
     }

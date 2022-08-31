@@ -6,18 +6,15 @@ namespace Badge2022EF.Models.Concretes
     /// </summary>
     public class Examens : IExamens
         {
-        public Examens(string ACme, long ACar, long ACor, long ACqu, long Medi_Id)
+        public Examens(int Eid, string Enom, int Enote)
             {
-            ACmedicamentId = ACme;
-            ACarmoireId = ACar;
-            ACordonnanceId = ACor;
-            ACquantite = ACqu;
-            ACmediId = Medi_Id;
+            eid = Eid;
+            enom = Enom;
+            enote = Enote;
             }
-        public string ACmedicamentId { get; set; } = string.Empty;
-        public long ACarmoireId { get; set; } = long.MinValue;
-        public long ACordonnanceId { get; set; } = long.MinValue;
-        public long ACquantite { get; set; } = long.MinValue;
-        public long ACmediId { get; set; } = long.MinValue;
-        }
+        public int eid { get; set; } = int.MinValue;
+        public string enom { get; set; } = string.Empty;
+        public int enote { get; set; } = int.MinValue;
+        public Cours? eCours { get; set; }
+    }
     }
