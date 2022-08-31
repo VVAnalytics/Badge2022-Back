@@ -6,29 +6,28 @@ namespace Badge2022EF.Models.Concretes
     /// </summary>
     public class NotesEleves : INotesEleves
         {
-        public NotesEleves(string nom, string inami, string rue, string ville, string telephone, string gsm, string fax, string email)
+  
+        public NotesEleves(int nnote)
+        {
+            this.nnote = nnote;
+        }
+
+        public NotesEleves(int Npid, int Ncid, int Nnote )
             {
-            MedecinName = nom;
-            MedecinInami = inami;
-            MedecinRue = rue;
-            MedecinVille = ville;
-            MedecinTelephone = telephone;
-            MedecinGsm = gsm;
-            MedecinFax = fax;
-            MedecinEmail = email;
+            npid = Npid;
+            ncid = Ncid;
+            nnote = Nnote;
             }
         #region Fields
 
-        public long MedecinId { get; set; } = long.MinValue;
-        public string MedecinName { get; set; } = string.Empty;
-        public string MedecinInami { get; set; } = string.Empty;
-        public string MedecinRue { get; set; } = string.Empty;
-        public string MedecinVille { get; set; } = string.Empty;
-        public string MedecinTelephone { get; set; } = string.Empty;
-        public string MedecinGsm { get; set; } = string.Empty;
-        public string MedecinFax { get; set; } = string.Empty;
-        public string MedecinEmail { get; set; } = string.Empty;
+        public int npid { get; set; } = int.MinValue;
+        public Personnes Personnes { get; set; }
+
+        public int ncid { get; set; } = int.MinValue;
+        public Cours Cours { get; set; }
+
+        public int nnote { get; set; } = int.MinValue;
 
         #endregion
-        }
+    }
     }

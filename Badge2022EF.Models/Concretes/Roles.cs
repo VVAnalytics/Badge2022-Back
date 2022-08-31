@@ -7,7 +7,7 @@
             Name = rolesName;
             //personnes = rolesPersonnes;
         }
-        public long Id { get; set; } = int.MinValue;
+        public int Id { get; set; } = int.MinValue;
         public string Name { get; set; } = string.Empty;
 
         public ICollection<Personnes>? Personnes { get; set; }

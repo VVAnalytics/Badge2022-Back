@@ -1,5 +1,4 @@
 ﻿using Badge2022EF.Models.Interfaces;
-using System.Security.Cryptography;
 
 namespace Badge2022EF.Models.Concretes
     {
@@ -14,5 +13,7 @@ namespace Badge2022EF.Models.Concretes
             }
         public int cid { get; set; } = int.MinValue;
         public string cnom { get; set; } = string.Empty;
-        }
+        public Formations? cform { get; set; }
+        public virtual ICollection<NotesEleves>? cNotesEleve { get; set; }
+    }
     }
