@@ -1,17 +1,18 @@
 ﻿using Badge2022EF.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics;
+
 namespace Badge2022EF.DAL.Config
 {
     public class CoursEntityConfig : IEntityTypeConfiguration<CoursEntity>
         {
         public void Configure(EntityTypeBuilder<CoursEntity> builder)
             {
-                builder.ToTable("examens");
+                builder.ToTable("cours");
                 builder.HasComment("TRIAL");
 
-                builder.HasKey(m => m.cid)
-                   .HasName("PK_ExamenEntity")
+                builder.HasKey(c => new { c.cid })
                    .IsClustered();
 
                 builder.Property(e => e.cnom)
@@ -20,11 +21,8 @@ namespace Badge2022EF.DAL.Config
                     .IsRequired()
                     .HasComment("TRIAL");
 
-                builder.HasMany(c => c.cexams)
-                       .WithOne(e => e.eCours);
-
-                builder.HasOne(c => c.cform)
-                       .WithMany(e => e.fCours);
+                builder.HasMany<ExamenEntity>(e => e.cexams)
+                       .WithOne(c => c.eCours);
         }
     }
 }

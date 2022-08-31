@@ -1,5 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Badge2022EF.DAL.Entities;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+using System.Diagnostics;
+using System.Reflection.Emit;
 
 namespace Badge2022EF.DAL.Config
     {
@@ -10,8 +15,7 @@ namespace Badge2022EF.DAL.Config
                 builder.ToTable("examens");
                 builder.HasComment("TRIAL");
 
-                builder.HasKey(m => m.eid)
-                   .HasName("PK_ExamenEntity")
+                builder.HasKey(e => new { e.eid })
                    .IsClustered();
 
                 builder.Property(e => e.enom)
@@ -19,9 +23,6 @@ namespace Badge2022EF.DAL.Config
                     .HasColumnName("enom")
                     .IsRequired()
                     .HasComment("TRIAL");
-
-                builder.HasOne(e => e.eCours)
-                       .WithMany(c => c.cexams);
         }
     }
 }

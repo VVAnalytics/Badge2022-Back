@@ -73,7 +73,7 @@ namespace Badge2022EF.DAL.Config
                         userRole => userRole.HasOne<PersonneEntity>()
                             .WithMany()
                             .HasForeignKey(us => us.Id)
-                            .IsRequired());
+                            .IsRequired().OnDelete(DeleteBehavior.NoAction));
 
             builder.HasOne(c => c.uformation)
                    .WithMany(e => e.fPersonnes);
