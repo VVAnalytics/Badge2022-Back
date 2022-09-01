@@ -26,10 +26,10 @@ namespace Badge2022EF.WebApi.Controllers
         private readonly RoleManager<RoleEntity> _roleManager;
         private readonly Badge2022Context _context;
 
-        public PersonnesController( IJWTManagerRepository jWTManager, 
-                                    PersonneRepository personneRepository, 
-                                    SignInManager<PersonneEntity> signInManager, 
-                                    UserManager<PersonneEntity> userManager, 
+        public PersonnesController(IJWTManagerRepository jWTManager,
+                                    PersonneRepository personneRepository,
+                                    SignInManager<PersonneEntity> signInManager,
+                                    UserManager<PersonneEntity> userManager,
                                     RoleManager<RoleEntity> roleManager,
                                     Badge2022Context context
             )
@@ -58,7 +58,8 @@ namespace Badge2022EF.WebApi.Controllers
         public IEnumerable<Personnes>? GetOne([FromQuery] int id)
         {
             IEnumerable<Personnes> aa = _personneRepository.GetOne2(id);
-            if (aa != null) {
+            if (aa != null)
+            {
                 foreach (var item in aa) { _ = item; };
                 return aa.AsEnumerable();
             }
@@ -81,19 +82,19 @@ namespace Badge2022EF.WebApi.Controllers
             user.upays = newPersonne.upays;
             //user.Id = newPersonne.Id ;
             user.UserName = newPersonne.UserName;
-            user.NormalizedUserName = newPersonne.NormalizedUserName ;
+            user.NormalizedUserName = newPersonne.NormalizedUserName;
             user.Email = newPersonne.Email;
             user.NormalizedEmail = newPersonne.NormalizedEmail;
             user.EmailConfirmed = newPersonne.EmailConfirmed;
             user.PasswordHash = newPersonne.PasswordHash;
             user.SecurityStamp = newPersonne.SecurityStamp;
-            user.ConcurrencyStamp = newPersonne.ConcurrencyStamp; 
-            user.PhoneNumber = newPersonne.PhoneNumber; 
-            user.PhoneNumberConfirmed = newPersonne.PhoneNumberConfirmed; 
-            user.TwoFactorEnabled = newPersonne.TwoFactorEnabled; 
-            user.LockoutEnd = newPersonne.LockoutEnd; 
-            user.LockoutEnabled = newPersonne.LockoutEnabled; 
-            user.AccessFailedCount= newPersonne.AccessFailedCount;
+            user.ConcurrencyStamp = newPersonne.ConcurrencyStamp;
+            user.PhoneNumber = newPersonne.PhoneNumber;
+            user.PhoneNumberConfirmed = newPersonne.PhoneNumberConfirmed;
+            user.TwoFactorEnabled = newPersonne.TwoFactorEnabled;
+            user.LockoutEnd = newPersonne.LockoutEnd;
+            user.LockoutEnabled = newPersonne.LockoutEnabled;
+            user.AccessFailedCount = newPersonne.AccessFailedCount;
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, newPersonne.PasswordHash, false);
             if (result.Succeeded)
@@ -174,12 +175,12 @@ namespace Badge2022EF.WebApi.Controllers
             PersonneEntity user = await _userManager.FindByIdAsync(id.ToString());
             try
             {
+                _context.Personnes.Remove(user);
                 _context.SaveChanges();
                 return Ok();
             }
             catch (Exception)
             {
-                _context.Personnes.Remove(user);
                 return BadRequest();
             }
         }
@@ -192,141 +193,36 @@ namespace Badge2022EF.WebApi.Controllers
 
             if (p != null)
             {
-                    var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
-                    if (result.Succeeded)
+                var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
+                if (result.Succeeded)
+                {
+                    J_Users BigUsers = new()
                     {
-                        J_Users BigUsers = new()
-                        {
-                            Email = email
-                        };
-
+                        Email = email
+                    };
+                    // await _userManager.AddToRoleAsync(p, "Admin");
+                    // await _userManager.UpdateAsync(p);
                     //RoleEntity q = await _roleManager.FindByIdAsync(p.urole.Select(x=> x.Id).ToString());
                     var p4 = await _userManager.GetRolesAsync(p);
 
                     BigUsers.Role = p4[0];
 
-                        var token = _jWTManager.Authenticate(BigUsers);
-                        if (token == null)
-                        {
-                            return Unauthorized();
-                        }
-                        return Ok(token);
-                    }
-                    else
+                    var token = _jWTManager.Authenticate(BigUsers);
+                    if (token == null)
                     {
                         return Unauthorized();
                     }
+                    return Ok(token);
+                }
+                else
+                {
+                    return Unauthorized();
+                }
             }
             else
             {
                 return Unauthorized();
             }
         }
-
-        // tous les patients ont connectAs = email par defaut => n'ont pas praticien : Ouvert a tout le monde
-        [HttpPost]
-        public async Task<IActionResult> RegisterPatient(string email, string password)
-        {
-            PersonneEntity p = await _userManager.FindByNameAsync(email);
-            if (p == null)
-            {
-                PersonneEntity user = new()
-                {
-                    Email = email,
-                    UserName = email,
-                    EmailConfirmed = true,
-                    SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString()
-                };
-                var result = await _userManager.CreateAsync(user, password);
-                try
-                {
-                    _context.SaveChanges();
-                    PersonneEntity r = await _userManager.FindByNameAsync(email);
-                    return Ok();
-                }
-                catch (Exception)
-                {
-                    _context.Personnes.Remove(user);
-                    return BadRequest(result.Errors);
-                }
-            }
-            else {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
-        [Authorization("Admin")]
-        // C'est l'admin qui peut enregistrer un praticien
-        public async Task<IActionResult> RegisterPraticien(string emailPraticien, string passwordPraticien)
-        {
-            PersonneEntity p = await _userManager.FindByNameAsync(emailPraticien);
-            if (p == null)
-            {
-                    PersonneEntity user = new()
-                    {
-                        Email = emailPraticien,
-                        UserName = emailPraticien,
-                        EmailConfirmed = true,
-                        SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString()
-                    };
-                _ = await _userManager.CreateAsync(user, passwordPraticien);
-                try
-                    {
-                        _context.SaveChanges();
-                        return Ok();
-                    }
-                    catch (Exception)
-                    {
-                        _context.Personnes.Remove(user);
-                        return BadRequest();
-                    }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost]
-        [Authorization("Admin", "Praticien")]
-        // le patient prend dans connectas l'émail du praticien => vérification ligin du praticien
-        public async Task<IActionResult> RegisterPatientToPraticien(string praticienEmail, string praticienPassword, string patientEmail)
-        {
-            PersonneEntity p = await _userManager.FindByNameAsync(patientEmail);
-            if (p != null)
-            {
-                PersonneEntity q = await _userManager.FindByNameAsync(praticienEmail);
-                if (q != null)
-                {
-                    var result = await _signInManager.CheckPasswordSignInAsync(p, praticienPassword, false);
-                    if (result.Succeeded)
-                    {
-                        try
-                        {
-                            _context.SaveChanges();
-                            return Ok();
-                        }
-                        catch (Exception)
-                        {
-                            _context.Personnes.Remove(p);
-                            return BadRequest();
-                        }
-                    }
-                    else
-                    {
-                        return BadRequest();
-                    }
-                }
-                else
-                {
-                    return BadRequest();
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }        
     }
 }
