@@ -9,6 +9,8 @@ using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
 using Microsoft.EntityFrameworkCore;
+using Badge2022EF.WebApi.JWT_Authentication;
+using System.Data;
 
 namespace Badge2022EF.WebApi.Controllers
 {
@@ -142,7 +144,12 @@ namespace Badge2022EF.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
+            PersonneEntity p1 = await _userManager.FindByNameAsync(email);
+
+            await _userManager.AddToRoleAsync(p1, "Admin");
+
             PersonneEntity p = await _userManager.FindByNameAsync(email);
+
             if (p != null)
             {
                     var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
@@ -152,7 +159,8 @@ namespace Badge2022EF.WebApi.Controllers
                         {
                             Email = email
                         };
-                        RoleEntity q = await _roleManager.FindByIdAsync(p.urole.Select(x=> x.Id).ToString());
+
+                    RoleEntity q = await _roleManager.FindByIdAsync(p.urole.Select(x=> x.Id).ToString());
                         BigUsers.Role = q.Name;
 
                         var token = _jWTManager.Authenticate(BigUsers);
