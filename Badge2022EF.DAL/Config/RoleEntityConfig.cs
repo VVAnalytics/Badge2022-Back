@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Badge2022EF.DAL.Config 
 {
     public class RoleEntityConfig : IEntityTypeConfiguration<RoleEntity>
@@ -13,6 +12,9 @@ namespace Badge2022EF.DAL.Config
             builder.HasKey(m => m.Id)
            .HasName("PK_RoleEntity")
            .IsClustered();
+            builder
+            .Property(m => m.Id)
+            .ValueGeneratedOnAdd();
 
             builder.Property(e => e.Name)
             .HasColumnType("nvarchar(256)")

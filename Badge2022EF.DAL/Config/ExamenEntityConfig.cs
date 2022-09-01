@@ -17,6 +17,9 @@ namespace Badge2022EF.DAL.Config
 
                 builder.HasKey(e => new { e.eid })
                    .IsClustered();
+                builder
+                    .Property(m => m.eid)
+                    .ValueGeneratedOnAdd();
 
                 builder.Property(e => e.enom)
                     .HasColumnType("nvarchar(256)")

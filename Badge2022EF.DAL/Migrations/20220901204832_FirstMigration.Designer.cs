@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Badge2022EF.DAL.Migrations
 {
     [DbContext(typeof(Badge2022Context))]
-    [Migration("20220831225048_Initial")]
-    partial class Initial
+    [Migration("20220901204832_FirstMigration")]
+    partial class FirstMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -255,6 +255,7 @@ namespace Badge2022EF.DAL.Migrations
             modelBuilder.Entity("Badge2022EF.DAL.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")

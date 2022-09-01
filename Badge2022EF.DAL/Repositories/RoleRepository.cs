@@ -1,20 +1,31 @@
-﻿using Badge2022EF.DAL.Repositories.Abstracts;
+﻿using Badge2022EF.DAL.Entities;
+using Badge2022EF.DAL.Repositories.Abstracts;
 using Badge2022EF.DAL.Repositories.Interface;
 using Badge2022EF.DAL.Repositories.Mappers;
 using Badge2022EF.Models.Concretes;
+
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using System.Collections.ObjectModel;
 
 namespace Badge2022EF.DAL.Repositories
 {
     public class RoleRepository : BaseRepository<Roles>, IRoleRepository
     {
-        public RoleRepository(Badge2022Context context) : base(context)
+        private readonly UserManager<PersonneEntity> _userManager;
+
+        public RoleRepository(
+            UserManager<PersonneEntity> userManager,
+            Badge2022Context context) : base(context)
         {
+            _userManager = userManager;
         }
 
         public override bool Add(Roles Role)
         {
             RoleEntity toInsert = Role.ToEntity();
+            toInsert.Id = GetAll().Count();
             _db.Roles.Add(toInsert);
 
             try
@@ -24,7 +35,7 @@ namespace Badge2022EF.DAL.Repositories
             }
             catch (DbUpdateException)
             {
-                _db.Roles.Remove(toInsert);
+                //_db.Roles.Remove(toInsert);
                 return false;
             }
         }

@@ -21,6 +21,7 @@ namespace Badge2022EF.DAL.Repositories.Mappers
             {
                 Id = Model.Id,
                 Name = Model.Name,
+                NormalizedName = Model.Name.ToUpperInvariant(),
             };
         }
     }

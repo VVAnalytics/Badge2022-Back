@@ -3,13 +3,10 @@ using Badge2022EF.Models.Concretes;
 using Badge2022EF.WebApi.JWT_Authentication.JWTWebAuthentication.Repository;
 using Badge2022EF.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Identity;
 using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
-using Microsoft.EntityFrameworkCore;
-using Badge2022EF.WebApi.JWT_Authentication;
 using System.Data;
 
 namespace Badge2022EF.WebApi.Controllers
@@ -23,14 +20,12 @@ namespace Badge2022EF.WebApi.Controllers
         private readonly PersonneRepository _personneRepository;
         private readonly SignInManager<PersonneEntity> _signInManager;
         private readonly UserManager<PersonneEntity> _userManager;
-        private readonly RoleManager<RoleEntity> _roleManager;
         private readonly Badge2022Context _context;
 
         public PersonnesController(IJWTManagerRepository jWTManager,
                                     PersonneRepository personneRepository,
                                     SignInManager<PersonneEntity> signInManager,
                                     UserManager<PersonneEntity> userManager,
-                                    RoleManager<RoleEntity> roleManager,
                                     Badge2022Context context
             )
         {
@@ -38,13 +33,12 @@ namespace Badge2022EF.WebApi.Controllers
             _personneRepository = personneRepository;
             _signInManager = signInManager;
             _userManager = userManager;
-            _roleManager = roleManager;
             _context = context;
         }
 
         // GET: api/<PersonnesController>
         [HttpGet]
-        [Authorization("Admin", "Praticien")]
+        [Authorization("Admin")]
         public IEnumerable<PersonneEntity> GetAll()
         {
             //return _context.Users.Include(x => x.urole).ToList() ;
@@ -54,7 +48,7 @@ namespace Badge2022EF.WebApi.Controllers
 
         // GET api/<PersonnesController>/5
         [HttpGet]
-        [Authorization("Admin", "Praticien")]
+        [Authorization("Admin", "Etudiant")]
         public IEnumerable<Personnes>? GetOne([FromQuery] int id)
         {
             IEnumerable<Personnes> aa = _personneRepository.GetOne2(id);
@@ -68,7 +62,7 @@ namespace Badge2022EF.WebApi.Controllers
 
         // POST api/<PersonnesController>
         [HttpPost]
-        [Authorization("Admin", "Praticien")]
+        [Authorization("Admin")]
         public async Task<IActionResult> Post([FromQuery] J_Personnes newPersonne)
         {
             PersonneEntity user = new();
@@ -118,7 +112,7 @@ namespace Badge2022EF.WebApi.Controllers
         }
         // PUT api/<PersonnesController>/5
         [HttpPut("{id}")]
-        [Authorization("Admin", "Praticien")]
+        [Authorization("Admin")]
         public async Task<IActionResult> Put(int id, [FromBody] J_Personnes majPersonne)
         {
             PersonneEntity user = new();
@@ -169,7 +163,7 @@ namespace Badge2022EF.WebApi.Controllers
 
         // DELETE api/<PersonnesController>/5
         [HttpDelete("{id}")]
-        [Authorization("Admin", "Praticien")]
+        [Authorization("Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             PersonneEntity user = await _userManager.FindByIdAsync(id.ToString());
@@ -200,8 +194,12 @@ namespace Badge2022EF.WebApi.Controllers
                     {
                         Email = email
                     };
-                    // await _userManager.AddToRoleAsync(p, "Admin");
-                    // await _userManager.UpdateAsync(p);
+
+                    //await _userManager.AddToRoleAsync(p, "Admin");
+                    //var userRole2 = await _roleManager.FindByNameAsync("Admin");
+                    //await _userManager.UpdateAsync(p);
+                    //await _roleManager.UpdateAsync(userRole2);
+
                     //RoleEntity q = await _roleManager.FindByIdAsync(p.urole.Select(x=> x.Id).ToString());
                     var p4 = await _userManager.GetRolesAsync(p);
 

@@ -13,6 +13,9 @@ namespace Badge2022EF.DAL.Config
                 builder.HasKey(m => m.fid)
                    .HasName("PK_ExamenEntity")
                    .IsClustered();
+                builder
+                    .Property(m => m.fid)
+                    .ValueGeneratedOnAdd();
 
                 builder.Property(e => e.fnom)
                     .HasColumnType("nvarchar(256)")

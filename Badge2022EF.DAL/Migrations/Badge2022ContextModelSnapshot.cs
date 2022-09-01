@@ -253,6 +253,7 @@ namespace Badge2022EF.DAL.Migrations
             modelBuilder.Entity("Badge2022EF.DAL.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
