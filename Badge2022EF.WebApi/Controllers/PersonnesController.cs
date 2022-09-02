@@ -39,11 +39,13 @@ namespace Badge2022EF.WebApi.Controllers
         // GET: api/<PersonnesController>
         [HttpGet]
         [Authorization("Admin")]
-        public IEnumerable<PersonneEntity> GetAll()
+        [ProducesResponseType(200, Type = typeof(IEnumerable<PersonneEntity>))]
+        public IActionResult GetAll()
         {
-            //return _context.Users.Include(x => x.urole).ToList() ;
-            return _context.Users.ToList();
-
+            var listPersonnes = _context.Users.ToList();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            return Ok(listPersonnes);
         }
 
         // GET api/<PersonnesController>/5

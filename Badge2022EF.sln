@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badge2022EF.Models", "Badge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Badge2022EF.WebApi", "Badge2022EF.WebApi\Badge2022EF.WebApi.csproj", "{68D5C351-98C2-4FB6-BE1A-2A6485EE213E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Badge2022EF.Tests", "Badge2022EF.Tests\Badge2022EF.Tests.csproj", "{0D20611C-ADF3-4D49-BA18-8CA3953046D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{68D5C351-98C2-4FB6-BE1A-2A6485EE213E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68D5C351-98C2-4FB6-BE1A-2A6485EE213E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68D5C351-98C2-4FB6-BE1A-2A6485EE213E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D20611C-ADF3-4D49-BA18-8CA3953046D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D20611C-ADF3-4D49-BA18-8CA3953046D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D20611C-ADF3-4D49-BA18-8CA3953046D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D20611C-ADF3-4D49-BA18-8CA3953046D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
