@@ -1,11 +1,14 @@
 ﻿using Badge2022EF.DAL;
 using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL.Repositories;
+using Badge2022EF.DAL.Repositories.Interface;
 using Badge2022EF.Models.Concretes;
+using Badge2022EF.Models.Interfaces;
 using Badge2022EF.WebApi.Filters;
 using Badge2022EF.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using System.Collections.ObjectModel;
 using System.Security.Claims;
 
@@ -38,13 +41,7 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien", "Patient")]
         public IEnumerable<Formations> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
-            return new ObservableCollection<Formations>(_FormationRepository.GetAll(limit, offset)).ToList().Where(x => x.fid == p.Id);
+            return new ObservableCollection<Formations>(_FormationRepository.GetAll(limit, offset)).ToList();
         }
 
         // GET api/<FormationsController>/5
@@ -52,72 +49,49 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien", "Patient")]
         public IEnumerable<Formations> GetOne(int id)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
             IEnumerable<Formations> aa = _FormationRepository.GetOne2(id);
             foreach (var item in aa) { };
-            return aa.AsEnumerable().Where(x => x.fid == p.Id);
+            return aa.AsEnumerable().Where(x => x.fid == id);
         }
 
         // POST api/<FormationsController>
         [HttpPost]
         [Authorization("Admin", "Praticien")]
-        public void Post([FromBody] J_Formations newFormation)
+        public async Task<IActionResult> Post([FromBody] J_Formations newFormation)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
-            Formations Formation = new(
-                        newFormation.fid,
-                        newFormation.fnom
-                        )
-            {
-                fid = p.Id
-            };
+            Formations Formation = new(newFormation.fid, newFormation.fnom);
             _FormationRepository.Add(Formation);
+            return Ok();
         }
 
         // PUT api/<FormationsController>/5
         [HttpPut("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Put(long id, [FromBody] J_Formations majFormation)
+        public async Task<IActionResult> Put(int id, [FromBody] J_Formations majFormation)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
+            Formations ar = _FormationRepository.GetOne(id);
+            if (ar.fid == id)
             {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
-            Formations Formation = new(
-                        majFormation.fid,
-                        majFormation.fnom
-                        )
-            {
-            };
-            _FormationRepository.Add(Formation);
+                Formations Formation = new(id, majFormation.fnom);
+                _FormationRepository.Update(Formation);
+                return Ok();
+            }
+            return BadRequest();
+
         }
 
         // DELETE api/<FormationsController>/5
         [HttpDelete("{id}")]
         [Authorization("Admin", "Praticien")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
             Formations ar = _FormationRepository.GetOne(id);
-            if (ar.fid == p.Id) _FormationRepository.Delete(id);
-            _FormationRepository.Delete(id);
+            if (ar.fid == id)
+            {
+                _FormationRepository.Delete(id);
+                return Ok();
+            }
+            return BadRequest();
         }
     }
 }
