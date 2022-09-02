@@ -65,11 +65,12 @@ namespace Badge2022EF.DAL.Repositories
             }
         }
 
-        public override bool Delete(int id)
-            {
+        public override bool Delete(int id) { return true; }
+        public bool Delete2(NotesEleves NotesEleve)
+        {
             try
                 {
-                _db.NotesEleves.Remove(_db.NotesEleves.Find(id)!);
+                _db.NotesEleves.Remove(NotesEleve.ToEntity());
                 _db.SaveChanges();
                 return true;
                 }
