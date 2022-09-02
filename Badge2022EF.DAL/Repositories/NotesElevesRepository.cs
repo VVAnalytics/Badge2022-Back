@@ -48,12 +48,8 @@ namespace Badge2022EF.DAL.Repositories
 
         public override bool Update(NotesEleves NotesEleve)
         {
-            NotesEleveEntity toUpdate = _db.NotesEleves.Find(NotesEleve.ncid)!;
-            toUpdate.ncid = NotesEleve.ncid;
-            _db.NotesEleves.Remove(_db.NotesEleves.Find(NotesEleve.ncid)!);
-            toUpdate = NotesEleve.ToEntity();
-            _db.NotesEleves.Add(toUpdate);
-
+            NotesEleveEntity toUpdate = NotesEleve.ToEntity();
+            _db.NotesEleves.Update(toUpdate);
             try
             {
                 _db.SaveChanges();

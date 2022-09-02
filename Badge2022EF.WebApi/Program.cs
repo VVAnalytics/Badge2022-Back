@@ -25,7 +25,10 @@ builder.Services.AddScoped<NotesElevesRepository>();
 builder.Services.AddScoped<PersonneRepository>();
 builder.Services.AddScoped<RoleRepository>();
 
-builder.Services.AddDbContext<Badge2022Context>(o => o.UseSqlServer(builder.Configuration.GetConnectionString("Badge2022Works")));
+builder.Services.AddDbContext<Badge2022Context>(o => { o.UseSqlServer(builder.Configuration.GetConnectionString("Badge2022Works"));
+                                                       o.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+                                                     }
+);
 
 builder.Services.AddIdentity<PersonneEntity, RoleEntity>(
                 options => {

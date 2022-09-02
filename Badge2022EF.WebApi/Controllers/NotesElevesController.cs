@@ -35,9 +35,9 @@ namespace Badge2022EF.WebApi.Controllers
         }
 
         // GET api/<NotesElevesController>/5
-        [HttpGet("{id}")]
+        [HttpPost]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<NotesEleves> GetOneNote(NotesEleves notesEleves)
+        public IEnumerable<NotesEleves> GetOneNote([FromBody] J_NotesEleves notesEleves)
         {
             IEnumerable<NotesEleves> aa = _notesEleveRepository.GetAll().Where(x => x.npid == notesEleves.npid && x.ncid == notesEleves.ncid);
             foreach (var item in aa) { _ = item; };
@@ -45,20 +45,20 @@ namespace Badge2022EF.WebApi.Controllers
         }
 
         // GET api/<NotesElevesController>/5
-        [HttpGet("{id}")]
+        [HttpPost]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<NotesEleves> GetOneEleve(int id)
+        public IEnumerable<NotesEleves> GetAllEleve([FromBody] J_NotesEleves notesEleves)
         {
-            IEnumerable<NotesEleves> aa = _notesEleveRepository.GetOne2(id).Where(x => x.npid == id);
+            IEnumerable<NotesEleves> aa = _notesEleveRepository.GetAll().Where(x => x.npid == notesEleves.npid);
             foreach (var item in aa)  { _ = item; };
             return aa.AsEnumerable();
         }
         // GET api/<NotesElevesController>/5
-        [HttpGet("{id}")]
+        [HttpPost]
         [Authorization("Admin", "Praticien", "Patient")]
-        public IEnumerable<NotesEleves> GetOneCours(int id)
+        public IEnumerable<NotesEleves> GetAllCours([FromBody] J_NotesEleves notesEleves)
         {
-            IEnumerable<NotesEleves> aa = _notesEleveRepository.GetOne2(id).Where(x => x.ncid == id);
+            IEnumerable<NotesEleves> aa = _notesEleveRepository.GetAll().Where(x => x.ncid == notesEleves.ncid);
             foreach (var item in aa) { _ = item; };
             return aa.AsEnumerable();
         }
@@ -74,29 +74,34 @@ namespace Badge2022EF.WebApi.Controllers
         }
 
         // PUT api/<NotesElevesController>/update/5
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorization("Admin", "Praticien")]
-        public async Task<IActionResult> Put([FromQuery] int pid, int cid, [FromQuery] J_NotesEleves majNotesEleve)
+        public async Task<IActionResult> Put([FromQuery] J_NotesEleves majNotesEleve)
         {
-            NotesEleves NotesEleve = new(pid, cid, majNotesEleve.nnote);
-            NotesEleves ar = this.GetOneNote(NotesEleve).FirstOrDefault();
-            if (ar.npid == pid && ar.ncid == cid)
+            J_NotesEleves notesEleve = new();
+            notesEleve.ncid = majNotesEleve.ncid;
+            notesEleve.npid = majNotesEleve.npid;
+            notesEleve.nnote = majNotesEleve.nnote;
+
+            NotesEleves ar = this.GetOneNote(notesEleve).FirstOrDefault();
+            if (ar.npid == majNotesEleve.npid && ar.ncid == majNotesEleve.ncid)
             {
-                _notesEleveRepository.Update(NotesEleve);
+                ar.nnote = majNotesEleve.nnote;
+                _notesEleveRepository.Update(ar);
                 return Ok();
             }
             return BadRequest();
         }
 
         // DELETE api/<NotesElevesController>/delete/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
         [Authorization("Admin", "Praticien")]
-        public async Task<IActionResult> Delete(NotesEleves notesEleves)
+        public async Task<IActionResult> Delete(J_NotesEleves notesEleves)
         {
             NotesEleves ar = this.GetOneNote(notesEleves).FirstOrDefault();
             if (ar.npid == notesEleves.npid && ar.ncid == notesEleves.ncid)
             {
-                _notesEleveRepository.Delete2(notesEleves);
+                _notesEleveRepository.Delete2(ar);
                 return Ok();
             }
             return BadRequest();
