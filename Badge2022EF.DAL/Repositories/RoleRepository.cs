@@ -25,7 +25,7 @@ namespace Badge2022EF.DAL.Repositories
         public override bool Add(Roles Role)
         {
             RoleEntity toInsert = Role.ToEntity();
-            toInsert.Id = GetAll().Count();
+            toInsert.Id = GetAll().Count()+1;
             _db.Roles.Add(toInsert);
 
             try
