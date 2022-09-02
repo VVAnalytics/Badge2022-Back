@@ -11,7 +11,7 @@ namespace Badge2022EF.WebApi.Models
         public int eid { get; set; } = int.MinValue;
         public string enom { get; set; } = string.Empty;
         public int enote { get; set; } = int.MinValue;
-        public virtual CoursEntity? eCours { get; set; }
+        // public virtual CoursEntity? eCours { get; set; }
 
         #endregion
     }

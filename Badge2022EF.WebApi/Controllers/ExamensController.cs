@@ -64,7 +64,7 @@ namespace Badge2022EF.WebApi.Controllers
             Examens ar = _ExamenRepository.GetOne(id);
             if (ar.eid == id)
             {
-                Examens Examen = new(majExamen.eid, majExamen.enom, majExamen.enote);
+                Examens Examen = new(id, majExamen.enom, majExamen.enote);
                 _ExamenRepository.Update(Examen);
                 return Ok();
             }
