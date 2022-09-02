@@ -40,13 +40,7 @@ namespace Badge2022EF.WebApi.Controllers
         [Authorization("Admin", "Praticien", "Patient")]
         public IEnumerable<Cours> GetPage([FromQuery] int limit = 20, [FromQuery] int offset = 0)
         {
-            PersonneEntity p = new();
-            if (HttpContext.User.Identity is ClaimsIdentity identity)
-            {
-                _jWTEmail = identity?.FindFirst(ClaimTypes.Name)?.Value;
-                p = (PersonneEntity)_context.Users.Include(x => x.urole).ToList().Where(x => x.Email == _jWTEmail);
-            };
-            return new ObservableCollection<Cours>(_CoursRepository.GetAll(limit, offset)).ToList().Where(x => x.cid == p.Id);
+            return new ObservableCollection<Cours>(_CoursRepository.GetAll(limit, offset)).ToList();
         }
 
         // GET api/<CoursController>/5
