@@ -26,11 +26,11 @@ namespace Badge2022EF.Tests.Controllers
             mockContext.Setup(m => m.Cours).Returns(mockSet.Object);
 
             //Arrange
-            var mockRepo = new Mock<CoursRepository>();
+            var mockRepo = new Mock<ICoursRepository>();
             mockRepo.Setup(repo => repo.GetAll()).Returns(CoursList);
 
             // var repo = new CoursRepository( mockContext.Object );                                // Context ne passe pas !!!!!!!!!!!!!!!!
-            // var controller = new CoursController( mockRepo.Object, mockContext.Object );         // Context ne passe pas !!!!!!!!!!!!!!!!
+            var controller = new CoursController( (CoursRepository)mockRepo.Object, mockContext.Object );         // Context ne passe pas !!!!!!!!!!!!!!!!
 
             //Act
             //- var result = controller.GetAll();
