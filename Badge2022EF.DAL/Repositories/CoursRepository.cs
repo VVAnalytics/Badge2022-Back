@@ -9,8 +9,10 @@ namespace Badge2022EF.DAL.Repositories
     {
     public class CoursRepository : BaseRepository<Cours>, ICoursRepository
         {
+        private readonly Badge2022Context _context;
         public CoursRepository(Badge2022Context context) : base(context)
         {
+            _context = context;
         }
 
         public override Cours GetOne(int id)

@@ -8,6 +8,7 @@ using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Badge2022EF.WebApi.Controllers
 {
@@ -36,16 +37,11 @@ namespace Badge2022EF.WebApi.Controllers
             _context = context;
         }
 
-        // GET: api/<PersonnesController>
         [HttpGet]
-        [Authorization("Admin")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<PersonneEntity>))]
-        public IActionResult GetAll()
+        [Authorization("Admin", "Praticien")]
+        public IEnumerable<PersonneEntity> GetAll()
         {
-            var listPersonnes = _context.Users.ToList();
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            return Ok(listPersonnes);
+            return _context.Users.ToList();
         }
 
         // GET api/<PersonnesController>/5
