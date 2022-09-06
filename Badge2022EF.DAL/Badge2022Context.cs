@@ -11,6 +11,10 @@ namespace Badge2022EF.DAL
 {
     public partial class Badge2022Context : IdentityDbContext<PersonneEntity, RoleEntity, int>
     {
+        public Badge2022Context()
+        {
+
+        }
         public Badge2022Context(DbContextOptions<Badge2022Context> options)
             : base(options)
         {

@@ -14,6 +14,10 @@ namespace Badge2022EF.DAL.Repositories
         {
             _context = context;
         }
+        //public CoursRepository()
+        //{
+
+        //}
 
         public override Cours GetOne(int id)
             {

@@ -4,7 +4,6 @@ namespace Badge2022EF.DAL.Repositories.Interface
 {
     public interface ICoursRepository : IRepository<Cours>
     {
-        public IEnumerable<Cours> GetAll();
 
     }
 }
