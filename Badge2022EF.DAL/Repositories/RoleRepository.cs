@@ -42,16 +42,24 @@ namespace Badge2022EF.DAL.Repositories
 
         public override bool Delete(int id)
         {
-            try
+            RoleEntity toDelete = _db.Roles.Find(id)!;
+            if (toDelete != null)
             {
-                _db.Roles.Remove(_db.Roles.Find(id)!);
-                _db.SaveChanges();
-                return true;
+                try
+                {
+                    _db.Entry(toDelete).State = EntityState.Modified;
+                    _db.Roles.Remove(toDelete);
+                    _db.SaveChanges();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    _db.Entry(toDelete).State = EntityState.Deleted;
+                    // _db.SaveChanges();
+                    return false;
+                }
             }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            return true;
         }
 
         public override IEnumerable<Roles> GetAll()
@@ -73,21 +81,27 @@ namespace Badge2022EF.DAL.Repositories
 
         public override bool Update(Roles Role)
         {
-            RoleEntity toUpdate = _db.Roles.Find(Role.Id)!;
-            toUpdate.Id = Role.Id;
-            _db.Roles.Remove(_db.Roles.Find(Role.Id)!);
-            toUpdate = Role.ToEntity();
-            _db.Roles.Add(toUpdate);
+            RoleEntity toUpdate = new();
+            toUpdate = _db.Roles.Find(Role.Id)!;
+            if (toUpdate != null)
+            {
+                toUpdate.Id = Role.Id;
+                toUpdate.Name = Role.Name;
+                _db.Roles.Remove(_db.Roles.Find(Role.Id)!);
+                toUpdate = Role.ToEntity();
+                _db.Roles.Add(toUpdate);
 
-            try
-            {
-                _db.SaveChanges();
-                return true;
+                try
+                {
+                    _db.SaveChanges();
+                    return true;
+                }
+                catch (DbUpdateException)
+                {
+                    return false;
+                }
             }
-            catch (DbUpdateException)
-            {
-                return false;
-            }
+            return true;
         }
     }
 }

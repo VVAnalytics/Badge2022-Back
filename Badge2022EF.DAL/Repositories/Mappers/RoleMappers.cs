@@ -7,12 +7,15 @@ namespace Badge2022EF.DAL.Repositories.Mappers
     {
         public static Roles ToModel(this RoleEntity? Entity)
         {
-            Roles Role = new( Entity?.Name ?? string.Empty)
-            {
-                Id = Entity.Id,
-                Name = Entity?.Name ?? string.Empty
-            };
-            return Role;
+            if (Entity != null) {
+                Roles Role = new(Entity?.Name ?? string.Empty)
+                {
+                    Id = Entity.Id,
+                    Name = Entity?.Name ?? string.Empty
+                };
+                return Role;
+            }
+            return null;
         }
 
         public static RoleEntity ToEntity(this Roles Model)
