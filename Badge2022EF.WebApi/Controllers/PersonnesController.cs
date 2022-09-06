@@ -99,29 +99,34 @@ namespace Badge2022EF.WebApi.Controllers
         {
             PersonneEntity user = new();
             user = _context.Users.FirstOrDefault(x=>x.Id == id)!;
-            user.unom = majPersonne.unom;
-            user.uprenom = majPersonne.uprenom;
-            user.Email = majPersonne.Email;
-            user.urue = majPersonne.urue;
-            user.ucodep = majPersonne.ucodep;
-            user.uville = majPersonne.uville;
-            user.upays = majPersonne.upays;
-            var result = await _signInManager.CheckPasswordSignInAsync(user, user.PasswordHash, false);
-            if (result.Succeeded)
+            if (user == null) user = _context.Users.FirstOrDefault(x => x.unom == majPersonne.unom)!;
+            if (user != null)
             {
-                user.SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString();
+                user.unom = majPersonne.unom;
+                user.uprenom = majPersonne.uprenom;
+                user.Email = majPersonne.Email;
+                user.urue = majPersonne.urue;
+                user.ucodep = majPersonne.ucodep;
+                user.uville = majPersonne.uville;
+                user.upays = majPersonne.upays;
+                var result = await _signInManager.CheckPasswordSignInAsync(user, user.PasswordHash, false);
+                if (result.Succeeded)
+                {
+                    user.SecurityStamp = (DateTime.Now - new DateTime(1970, 1, 1)).TotalSeconds.ToString();
+                }
+                try
+                {
+                    _context.Update(user);
+                    _context.SaveChanges();
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    _context.Personnes.Remove(user);
+                    return BadRequest();
+                }
             }
-            try
-            {
-                _context.Update(user);
-                _context.SaveChanges();
-                return Ok();
-            }
-            catch (Exception)
-            {
-                _context.Personnes.Remove(user);
-                return BadRequest();
-            }
+            return Ok();
         }
 
         // DELETE api/<PersonnesController>/5
