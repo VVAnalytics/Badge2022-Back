@@ -26,9 +26,9 @@ namespace Badge2022EF.Models.Concretes
         public string? uville { get; set; }
         public string? upays { get; set; }
 
-        public ICollection<Roles>? urole { get; set; }
-        public Formations? uformation { get; set; }
-        public ICollection<NotesEleves>? uNotesEleve { get; set; }
+        //public ICollection<Roles>? urole { get; set; }
+        //public Formations? uformation { get; set; }
+        //public ICollection<NotesEleves>? uNotesEleve { get; set; }
 
 
     }
