@@ -7,9 +7,6 @@ using Microsoft.AspNetCore.Identity;
 using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
-using System.Data;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using Badge2022EF.DAL.Repositories.Mappers;
 
 namespace Badge2022EF.WebApi.Controllers
@@ -52,13 +49,6 @@ namespace Badge2022EF.WebApi.Controllers
         public Personnes? GetOne([FromQuery] int id)
         {
             return _context.Users.FirstOrDefault(x => x.Id == id).ToModel();
-            //IEnumerable<Personnes> aa = _personneRepository.GetOne2(id);
-            //if (aa != null)
-            //{
-            //    foreach (var item in aa) { _ = item; };
-            //    return aa.AsEnumerable();
-            //}
-            //return null;
         }
 
         // POST api/<PersonnesController>

@@ -13,7 +13,6 @@ namespace Badge2022EF.DAL
     {
         public Badge2022Context()
         {
-
         }
         public Badge2022Context(DbContextOptions<Badge2022Context> options)
             : base(options)
