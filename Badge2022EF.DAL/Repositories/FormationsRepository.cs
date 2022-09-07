@@ -43,8 +43,10 @@ namespace Badge2022EF.DAL.Repositories
             }
             catch (DbUpdateException)
             {
-                //_db.Formations.Remove(toInsert);
-                return false;
+                toInsert.fid = 0;
+                _db.Formations.Add(toInsert);
+                _db.SaveChanges();
+                return true;
             }
         }
 
