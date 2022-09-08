@@ -140,12 +140,13 @@ namespace Badge2022EF.WebApi.Controllers
 
         // Login ouvert à tout le monde
         [HttpPost]
-        public async Task<IActionResult> Login([FromQuery] string email, [FromQuery] string password  )
+        public async Task<IActionResult> Login([FromBody] J_Login lg)
         {
             var dc = new RsaHelper();
-            var passwords = dc.Decrypt(password);
+            var emails = lg.email;
+            var passwords = dc.Decrypt(lg.password);
 
-            PersonneEntity p = await _userManager.FindByNameAsync(email);
+            PersonneEntity p = await _userManager.FindByNameAsync(emails);
 
             if (p != null)
             {
@@ -154,7 +155,7 @@ namespace Badge2022EF.WebApi.Controllers
                 {
                     J_Users BigUsers = new()
                     {
-                        Email = email
+                        Email = lg.email
                     };
 
                     var p4 = await _userManager.GetRolesAsync(p);
