@@ -8,6 +8,8 @@ using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
 using Badge2022EF.DAL.Repositories.Mappers;
+using Badge2022EF.WebApi.Controllers.Crypto;
+using System.Text;
 
 namespace Badge2022EF.WebApi.Controllers
 {
@@ -141,11 +143,17 @@ namespace Badge2022EF.WebApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
+            var dc = new DeCrypToBusiness(email);
+            //string passwords = dc.DecodeAndDecrypt(password);
+            byte[] IV = Encoding.Default.GetBytes("8080808080808080");
+            byte[] key = Encoding.Default.GetBytes(email);
+            byte[] pwd = Encoding.Default.GetBytes(password);
+            string passwords = dc.DecryptStringFromBytes_Aes(pwd, key, IV);
             PersonneEntity p = await _userManager.FindByNameAsync(email);
 
             if (p != null)
             {
-                var result = await _signInManager.CheckPasswordSignInAsync(p, password, false);
+                var result = await _signInManager.CheckPasswordSignInAsync(p, passwords, false);
                 if (result.Succeeded)
                 {
                     J_Users BigUsers = new()
