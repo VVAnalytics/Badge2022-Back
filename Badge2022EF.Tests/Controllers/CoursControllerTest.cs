@@ -30,13 +30,14 @@ namespace Badge2022EF.Tests.Controllers
             mockRepo.Setup(repo => repo.GetAll()).Returns(CoursList);
 
             var repo = new CoursRepository( mockContext.Object );                                // Context ne passe pas !!!!!!!!!!!!!!!!
-            var controller = new CoursController(repo, mockContext.Object );         // Context ne passe pas !!!!!!!!!!!!!!!!
+            var controller = new CoursController(repo, mockContext.Object );                    // Context ne passe pas !!!!!!!!!!!!!!!!
 
             //Act
-            //var result = controller.GetDiscountedPrice(2);
+            Task taskPost = Task.Run(() => controller.GetAll());
+            taskPost.Wait();
 
             //Assert
-            //result.Should().BePositive();
+            taskPost.Should().BeEquivalentTo(CoursList);
 
 
 

@@ -8,9 +8,6 @@ using Badge2022EF.DAL.Entities;
 using Badge2022EF.DAL;
 using Badge2022EF.WebApi.Filters;
 using Badge2022EF.DAL.Repositories.Mappers;
-using Badge2022EF.WebApi.Controllers.Crypto;
-using System.Text;
-using System.Security.Cryptography;
 using Badge2022EF.WebApi.Controllers.RSA;
 
 namespace Badge2022EF.WebApi.Controllers
@@ -143,7 +140,7 @@ namespace Badge2022EF.WebApi.Controllers
 
         // Login ouvert à tout le monde
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromQuery] string email, [FromQuery] string password  )
         {
             var dc = new RsaHelper();
             var passwords = dc.Decrypt(password);
