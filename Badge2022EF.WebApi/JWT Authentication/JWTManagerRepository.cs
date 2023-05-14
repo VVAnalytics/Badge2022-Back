@@ -24,7 +24,9 @@ namespace Badge2022EF.WebApi.JWT_Authentication
 			JwtSecurityTokenHandler tokenHandler = new();
 			//var tokenKey = Encoding.UTF8.GetBytes(iconfiguration["JWT:Key"]);
 			byte[] tokenKey = Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("SECRETJWT_Badge2022EF", EnvironmentVariableTarget.Machine)??string.Empty);
-
+            if (tokenKey.Length < 1) {
+                tokenKey = Encoding.UTF8.GetBytes("oPXzRVyHyAeerCEVjfYLJ5XkiuHWfhhJCgFL1Van+jt4N/oXApi8tK6FaBSmQzmYvdV9mWOiTFy+UXyr7jsTZ/bjcGmR5D6PzdOoUUbeS98PF2e3iakk5Sh+Y9e5y7fSJ1vVUwCsxyA/S0xn1zPGWufCdP6QMkAcUeb0IpzNmYQ=");
+            };
             SecurityToken token = new JwtSecurityToken(null, null, new Claim[]
                        {
                           new Claim(ClaimTypes.Name, users.Email??String.Empty),
